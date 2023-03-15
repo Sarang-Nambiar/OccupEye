@@ -8,10 +8,10 @@
     android:background = "@drawable/loadingscreenbg">
 
     <Button
-        android:background="@android:color/black"
         android:id="@+id/getstarted"
         android:layout_width="319dp"
         android:layout_height="50dp"
+        android:background="@android:color/black"
         android:text="Get Started!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
