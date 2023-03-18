@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="splashbg">#515751</color>
+    <color name="loadscreenbg">#F5F9E9</color>
+    <color name="loadtextcolor">#E3655B</color>
 </resources>

@@ -1,21 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoadingScreen"
-    android:background = "@drawable/loadingscreenbg">
+    android:orientation="vertical"
+    android:background = "@color/loadscreenbg">
+
+    <ImageView
+        android:id="@+id/loadscreenimg1"
+        android:layout_width="match_parent"
+        android:layout_height="550dp"
+        android:background="@drawable/loadscreenimg1" />
+
+    <TextView
+        android:id="@+id/loadscreentext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingTop="15pt"
+        android:text="Discover the crowd in a room with just a few taps"
+        android:textColor="@color/loadtextcolor"
+        android:textSize="16sp"
+        android:typeface="sans" />
 
     <Button
-        android:id="@+id/getstarted"
-        android:layout_width="319dp"
-        android:layout_height="50dp"
-        android:background="@android:color/black"
+        android:id="@+id/getstartedbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/roundstyle"
+        android:backgroundTint="@color/loadtextcolor"
+        android:layout_marginTop="15dp"
+        android:paddingLeft="40pt"
+        android:paddingRight="40pt"
         android:text="Get Started!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.935" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:typeface="sans" />
+
+</LinearLayout>
