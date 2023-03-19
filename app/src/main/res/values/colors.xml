@@ -10,4 +10,5 @@
     <color name="splashbg">#515751</color>
     <color name="loadscreenbg">#F5F9E9</color>
     <color name="loadtextcolor">#E3655B</color>
+    <color name="homescreenbg">#F5F9E9</color>
 </resources>
