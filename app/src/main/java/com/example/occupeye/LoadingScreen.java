@@ -7,8 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class LoadingScreen extends AppCompatActivity {
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 
+public class LoadingScreen extends AppCompatActivity {
+    SliderView sliderView;
+    int[] images = {R.drawable.loadscreenimg1, R.drawable.loadscreenimg2, R.drawable.loadscreenimg3};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,5 +28,14 @@ public class LoadingScreen extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        sliderView = findViewById(R.id.imageSlider);
+
+        SliderAdapter sliderAdapter = new SliderAdapter(images);
+
+        sliderView.setSliderAdapter(sliderAdapter);
+        sliderView.setIndicatorAnimation(IndicatorAnimationType.WORM);
+        sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+        sliderView.startAutoCycle();
     }
 }

@@ -13,7 +13,7 @@ import com.example.occupeye.databinding.ActivityHomeScreenBinding;
 import com.example.occupeye.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class HomeScreen extends AppCompatActivity {
+public class HomeScreen extends AppCompatActivity{
 
     ActivityHomeScreenBinding binding;
 
