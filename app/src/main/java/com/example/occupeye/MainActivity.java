@@ -23,6 +23,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();// end running of this activity
             }
-        }, 1000);
+        }, 1750);
     }
 }
