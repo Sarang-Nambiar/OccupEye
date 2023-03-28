@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.logging.LogRecord;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,6 +20,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Handler handler = new Handler();
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("message");
+
+        myRef.setValue("Hello, World!");
+
+
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -26,4 +36,17 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 1750);
     }
+
+
+//    public void sendData(View view){
+//        writeNewUser();
+//    }
+//
+//    public void writeNewUser() {
+//        String name = "ryan";
+//        String email = "xx@gmail.com";
+//        User user = new User(name, email);
+//
+//        mDatabase.child("users").child(userId).setValue(user);
+//    }
 }
