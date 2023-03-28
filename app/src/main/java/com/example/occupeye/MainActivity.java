@@ -15,15 +15,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Handler handler = new Handler();
-
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(MainActivity.this, LoadingScreen.class); // moving to leading screen
-                startActivity(intent);
-                finish();// end running of this activity
-            }
-        }, 1750);
+        Intent intent = new Intent(MainActivity.this, LoadingScreen.class);
+        startActivity(intent);
+//        Handler handler = new Handler();
+//
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Intent intent = new Intent(MainActivity.this, LoadingScreen.class); // moving to leading screen
+//                startActivity(intent);
+//                finish();// end running of this activity
+//            }
+//        }, 1750);
     }
 }
