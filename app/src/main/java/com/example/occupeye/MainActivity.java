@@ -24,17 +24,19 @@ public class MainActivity extends AppCompatActivity {
         DatabaseReference myRef = database.getReference("message");
 
         myRef.setValue("Hello, World!");
+        Intent intent = new Intent(MainActivity.this, LoadingScreen.class);
+        startActivity(intent);
 
 
 
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(MainActivity.this, LoadingScreen.class); // moving to leading screen
-                startActivity(intent);
-                finish();// end running of this activity
-            }
-        }, 1750);
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Intent intent = new Intent(MainActivity.this, LoadingScreen.class); // moving to leading screen
+//                startActivity(intent);
+//                finish();// end running of this activity
+//            }
+//        }, 1750);
     }
 
 
