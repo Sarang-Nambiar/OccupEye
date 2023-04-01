@@ -14,4 +14,6 @@
     <color name="iconhover">#E3655B</color>
     <color name="iconhoverlight">#A65A50</color>
     <color name="darkgreen">#36453B</color>
+    <color name="darkgrey">#7D8C82</color>
+
 </resources>
