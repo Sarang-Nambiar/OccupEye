@@ -10,17 +10,21 @@ import com.smarteist.autoimageslider.SliderViewAdapter;
 
 public class SliderAdapter extends SliderViewAdapter<SliderAdapter.Holder> {
     int[] images;
+    int imageHeight;
 
     public SliderAdapter(int[] images){
         this.images = images;
     }
 
+    public SliderAdapter(int[] images, int imageHeight) {
+        this.images = images;
+        this.imageHeight = imageHeight;
+    }
+
     public class Holder extends SliderViewAdapter.ViewHolder{
         ImageView imageView;
         public Holder(View itemView) {
-
             super(itemView);
-
             imageView = itemView.findViewById(R.id.imageview);
         }
     }
@@ -36,6 +40,15 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.Holder> {
     @Override
     public void onBindViewHolder(Holder viewHolder, int position) {
         viewHolder.imageView.setImageResource(images[position]);
+
+        if (imageHeight > 0) {
+            ViewGroup.LayoutParams layoutParams = viewHolder.imageView.getLayoutParams();
+            float density = viewHolder.imageView.getResources().getDisplayMetrics().density;
+            int newHeightInPixels = (int) (imageHeight * density + 0.5f); // Convert dp to pixels
+            layoutParams.height = newHeightInPixels;
+            viewHolder.imageView.setLayoutParams(layoutParams);
+        }
+
     }
 
 
