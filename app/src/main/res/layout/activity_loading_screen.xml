@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/darkgreen"
+    android:theme="@style/Theme.Design.NoActionBar"
     tools:context=".LoadingScreen">
 
     <com.smarteist.autoimageslider.SliderView
@@ -40,14 +41,14 @@
                 android:textSize="16sp"
                 android:typeface="sans" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/getstartedbutton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/roundstyle"
-                android:backgroundTint="@color/loadtextcolor"
-                android:layout_marginTop="60dp"
+                android:backgroundTint="@color/iconhover"
+                android:layout_marginTop="44dp"
                 android:paddingLeft="40pt"
                 android:paddingRight="40pt"
                 android:text="Get Started!"

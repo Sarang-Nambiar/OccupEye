@@ -1,5 +1,7 @@
 package com.example.occupeye.Fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,7 +9,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 
+import com.example.occupeye.EditPage;
 import com.example.occupeye.R;
 
 /**
@@ -22,9 +27,15 @@ public class UserFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private Button editprofilebtn;
+
+    private View rootView;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private ImageView pfp;
 
     public UserFragment() {
         // Required empty public constructor
@@ -54,6 +65,7 @@ public class UserFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            pfp = rootView.findViewById(R.id.profile_image);
         }
     }
 
@@ -61,6 +73,15 @@ public class UserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user, container, false);
+         rootView = inflater.inflate(R.layout.fragment_user, container, false);
+         editprofilebtn = rootView.findViewById(R.id.editprofilebtn);
+         editprofilebtn.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 Intent i = new Intent(getActivity(), EditPage.class);
+                 startActivity(i);
+             }
+         });
+         return rootView;
     }
 }

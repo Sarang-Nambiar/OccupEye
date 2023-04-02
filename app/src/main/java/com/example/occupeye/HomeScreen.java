@@ -9,13 +9,11 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.example.occupeye.Fragments.BookmarksFragment;
 import com.example.occupeye.Fragments.ExploreFragment;
 import com.example.occupeye.Fragments.HomeFragment;
 import com.example.occupeye.Fragments.SearchFragment;
 import com.example.occupeye.Fragments.UserFragment;
 import com.example.occupeye.databinding.ActivityHomeScreenBinding;
-import com.example.occupeye.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class HomeScreen extends AppCompatActivity{
@@ -46,9 +44,6 @@ public class HomeScreen extends AppCompatActivity{
                         break;
                     case(R.id.user):
                         replaceFragment(new UserFragment());
-                        break;
-                    case(R.id.bookmarks):
-                        replaceFragment(new BookmarksFragment());
                         break;
                 }
                 return true;
