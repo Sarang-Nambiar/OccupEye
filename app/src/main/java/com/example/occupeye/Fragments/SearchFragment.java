@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 
 import com.example.occupeye.R;
 
+import java.util.ArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link SearchFragment#newInstance} factory method to
@@ -48,12 +50,23 @@ public class SearchFragment extends Fragment {
         return fragment;
     }
 
+    ArrayList<CardModel> cardModels = new ArrayList<>();
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+
+    private void setUpCardsModels(){
+        String[] cardLocations = getResources().getStringArray(R.array.location_full_text);
+
+        for (int i = 0; i< cardLocations.length; i++){
+            cardModels.add(new CardModel(cardLocations[i]));
         }
     }
 
