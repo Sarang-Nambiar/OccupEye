@@ -27,15 +27,6 @@ public class HomeScreen extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         binding = ActivityHomeScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-<<<<<<< Updated upstream
-        // make changes to these
-        // String name = realTimeDataBase.getUsername();
-//        String term;
-//        String pillar;
-//        String HostelResident;
-//        String HostelBlock;
-=======
->>>>>>> Stashed changes
 
         replaceFragment(new HomeFragment()); // replaces Frame Layout with home fragment on startup
 
