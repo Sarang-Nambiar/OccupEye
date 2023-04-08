@@ -44,9 +44,6 @@ public class HomeScreen extends AppCompatActivity{
                     case(R.id.home):
                         replaceFragment(new HomeFragment());
                         break;
-                    case(R.id.explore):
-                        replaceFragment(new ExploreFragment());
-                        break;
                     case(R.id.search):
                         replaceFragment(new SearchFragment());
                         break;
