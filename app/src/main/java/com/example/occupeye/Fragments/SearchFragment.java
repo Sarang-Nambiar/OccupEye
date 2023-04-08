@@ -30,6 +30,7 @@ public class SearchFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    View rootView;
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -63,14 +64,6 @@ public class SearchFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        RecyclerView recyclerView = getActivity().findViewById(R.id.mRecyclerView);
-
-        setUpCardsModels();
-
-        Card_Recycler_Adapter adapter = new Card_Recycler_Adapter(getContext(), cardModels);
-
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     private void setUpCardsModels(){
@@ -85,6 +78,16 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false);
+        rootView = inflater.inflate(R.layout.fragment_search, container, false);
+        RecyclerView recyclerView = rootView.findViewById(R.id.mRecyclerView);
+
+        setUpCardsModels();
+
+        Card_Recycler_Adapter adapter = new Card_Recycler_Adapter(rootView.getContext(), cardModels);
+
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        return rootView;
     }
 }
