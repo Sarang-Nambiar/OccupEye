@@ -7,9 +7,6 @@
     <item android:title="Search"
         android:icon = "@drawable/ic_baseline_search_24"
         android:id="@+id/search"/>
-    <item android:title="Explore"
-        android:icon = "@drawable/ic_baseline_explore_24"
-        android:id="@+id/explore"/>
     <item android:title="User"
         android:icon="@drawable/ic_baseline_person_24"
         android:id="@+id/user"/>

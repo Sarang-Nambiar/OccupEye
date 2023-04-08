@@ -23,7 +23,6 @@
             android:id="@+id/profile_image"
             android:layout_width="185dp"
             android:layout_height="185dp"
-            android:src="@drawable/splashscreenbg"
             app:civ_border_width="2dp"
             android:layout_marginTop="68dp"
             android:layout_gravity="center_horizontal"
@@ -86,7 +85,6 @@
                 android:id="@+id/nametxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sarang"
                 android:textColor="@color/iconhover"
                 android:textSize="15dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +95,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="202dp"
-                android:text="Term 4, Sophomore"
                 android:textColor="@color/iconhover"
                 android:textSize="15dp"
                 app:layout_constraintStart_toStartOf="@+id/nametxt"
@@ -120,6 +117,7 @@
                 android:textSize="15dp"
 
                 android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -145,7 +143,6 @@
                 android:id="@+id/pillartxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CSD"
                 android:textColor="@color/iconhover"
                 android:textSize="15dp"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -155,7 +152,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="202dp"
-                android:text="Block 59"
                 android:textColor="@color/iconhover"
                 android:textSize="15dp"
                 app:layout_constraintStart_toStartOf="@+id/pillartxt"
@@ -179,7 +175,7 @@
             android:layout_marginTop="3dp"
             android:layout_marginLeft="25dp"
             android:textColor="@color/iconhover"
-            android:text="Ben?"
+            android:text=""
             android:layout_marginRight="162dp"
             android:textSize="15dp"
             android:layout_marginBottom="18dp"

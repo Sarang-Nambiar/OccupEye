@@ -4,9 +4,11 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,16 +23,30 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.occupeye.Fragments.UserFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EditPage extends AppCompatActivity {
-
+    FirebaseFirestore db;
+    StorageReference storageReference;
+    StorageReference profileRef;
     ImageView editpfp;
-
+    Uri pfpUri;
     MaterialButton backbtn;
     MaterialButton savebtn;
     EditText username;
@@ -39,35 +55,6 @@ public class EditPage extends AppCompatActivity {
     EditText hostelBlock;
     EditText hostelResident;
 
-    public Bitmap getBitMap(Uri uri) throws FileNotFoundException, IOException {
-
-
-        InputStream input = this.getContentResolver().openInputStream(uri);
-
-        BitmapFactory.Options onlyBoundsOptions = new BitmapFactory.Options();
-        onlyBoundsOptions.inJustDecodeBounds = true;
-        onlyBoundsOptions.inDither=true;//optional
-        onlyBoundsOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
-        BitmapFactory.decodeStream(input, null, onlyBoundsOptions);
-        input.close();
-
-        if ((onlyBoundsOptions.outWidth == -1) || (onlyBoundsOptions.outHeight == -1)) {
-            return null;
-        }
-
-        int originalSize = (onlyBoundsOptions.outHeight > onlyBoundsOptions.outWidth) ? onlyBoundsOptions.outHeight : onlyBoundsOptions.outWidth;
-
-        double ratio = (originalSize > 256) ? (originalSize / 256) : 1.0;
-
-        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-        bitmapOptions.inSampleSize = getPowerOfTwoForSampleRatio(ratio);
-        bitmapOptions.inDither = true; //optional
-        bitmapOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//
-        input = this.getContentResolver().openInputStream(uri);
-        Bitmap bitmap = BitmapFactory.decodeStream(input, null, bitmapOptions);
-        input.close();
-        return bitmap;
-    }
 
     private static int getPowerOfTwoForSampleRatio(double ratio){
         int k = Integer.highestOneBit((int)Math.floor(ratio));
@@ -81,6 +68,16 @@ public class EditPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_page);
 
+        Intent data = getIntent();
+        String name = data.getStringExtra("username");
+        String Pillar = data.getStringExtra("pillar");
+        String Term = data.getStringExtra("term");
+        String HostelBlock = data.getStringExtra("hostel block");
+        String HostelResident = data.getStringExtra("hostel resident");
+        db = FirebaseFirestore.getInstance();
+        storageReference = FirebaseStorage.getInstance().getReference();
+        profileRef = storageReference.child("Users/"+"admin"+"/profile.jpg");
+
         backbtn = findViewById(R.id.backbtn);
         editpfp = findViewById(R.id.edit_profile_image);
         savebtn = findViewById(R.id.savebtn);
@@ -90,6 +87,18 @@ public class EditPage extends AppCompatActivity {
         hostelResident = findViewById(R.id.editresidenttxt);
         term = findViewById(R.id.edittermtxt);
 
+        username.setText(name);
+        pillar.setText(Pillar);
+        hostelBlock.setText(HostelBlock);
+        hostelResident.setText(HostelResident);
+        term.setText(Term);
+
+        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(editpfp);
+            }
+        });
         final ActivityResultLauncher<Intent> launcherGallery = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
@@ -99,18 +108,11 @@ public class EditPage extends AppCompatActivity {
                                 && result.getData() != null){
                             Uri photoUri = result.getData().getData();
                             editpfp.setImageURI(photoUri);
-                            try {
-                                ImageStorage.saveInternalStorage(EditPage.this, getBitMap(photoUri), "pfp");
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-
-
+                            pfpUri = photoUri;
                         }
                     }
                 }
         );
-
         editpfp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,16 +136,62 @@ public class EditPage extends AppCompatActivity {
                 String Term = term.getText().toString();
                 String HostelBlock = hostelBlock.getText().toString();
                 String HostelResident = hostelResident.getText().toString();
+                Map<String, Object> user = new HashMap<>();
+                user.put("Name", Username);
+                user.put("Pillar", Pillar);
+                user.put("Term", Term);
+                user.put("Hostel Block", HostelBlock);
+                user.put("Hostel Resident", HostelResident);
+
                 if(Term.isEmpty() || Pillar.isEmpty() ||Username.isEmpty() ||HostelBlock.isEmpty() ||HostelResident.isEmpty()){
                     Toast.makeText(EditPage.this, "One or many of these fields are empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                onBackPressed();
-                finish();
+                //firestore storage part
+                DocumentReference docRef = db.collection("Users").document("admin");
+                docRef.update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        if(pfpUri != null){
+                            uploadImageToFirebase(pfpUri);
+                        }
+                        Toast.makeText(EditPage.this, "Profile updated", Toast.LENGTH_SHORT).show();
+                        onBackPressed();
+                        finish();
+                    }
+                });
+
+
             }
         });
 
 
+    }
+
+    private void uploadImageToFirebase(Uri imageUri) {
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Set your profile");
+        progressDialog.setMessage("Please wait while we are updating your data");
+        progressDialog.show();
+        // uploading image to firebase storage
+        StorageReference fileRef = storageReference.child("Users/"+"admin"+"/profile.jpg");
+        fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressDialog.dismiss();
+                Toast.makeText(EditPage.this, "Failed to upload the image", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                progressDialog.dismiss();
+                Toast.makeText(EditPage.this, "Image has been updated", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

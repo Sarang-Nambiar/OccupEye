@@ -20,7 +20,7 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
-        android:theme="@style/Theme.Material3.Light.NoActionBar"
+        android:theme="@style/Theme.Custom"
         android:background="@color/homescreenbg"
         android:layout_width="match_parent"
         android:layout_height="65dp"

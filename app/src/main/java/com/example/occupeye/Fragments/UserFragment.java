@@ -2,8 +2,10 @@ package com.example.occupeye.Fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -18,6 +20,17 @@ import android.widget.TextView;
 
 import com.example.occupeye.EditPage;
 import com.example.occupeye.R;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+
+import java.util.concurrent.Executor;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +44,9 @@ public class UserFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private StorageReference storageReference;
+    private StorageReference profileStorage;
+    private FirebaseFirestore fStore;
     private Button editprofilebtn;
     private TextView username;
     private TextView term;
@@ -75,41 +91,55 @@ public class UserFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-//        Intent i = new Intent();
-//        String name = i.getStringExtra("username");
-//        String spillar = i.getStringExtra("pillar");
-//        String sterm = i.getStringExtra("term");
-//        String shostelBlock = i.getStringExtra("hostelBlock");
-//        String shostelResident = i.getStringExtra("hostelResident");
-        pfp = rootView.findViewById(R.id.profile_image);
-//        username = rootView.findViewById(R.id.nametxt);
-//        pillar = rootView.findViewById(R.id.pillartxt);
-//        term = rootView.findViewById(R.id.termtxt);
-//        hostelBlock = rootView.findViewById(R.id.blocktxt);
-//        hostelResident = rootView.findViewById(R.id.hosteltext);
 
-//        username.setText(name);
-//        pillar.setText(spillar);
-//        term.setText(sterm);
-//        hostelBlock.setText(shostelBlock);
-//        hostelResident.setText(shostelResident);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
          rootView = inflater.inflate(R.layout.fragment_user, container, false);
+         fStore = FirebaseFirestore.getInstance();
+         storageReference = FirebaseStorage.getInstance().getReference();
+         profileStorage = storageReference.child("Users/"+"admin"+"/profile.jpg");
          editprofilebtn = rootView.findViewById(R.id.editprofilebtn);
+         pfp = rootView.findViewById(R.id.profile_image);
+         username = rootView.findViewById(R.id.nametxt);
+         pillar = rootView.findViewById(R.id.pillartxt);
+         term = rootView.findViewById(R.id.termtxt);
+         hostelBlock = rootView.findViewById(R.id.blocktxt);
+         hostelResident = rootView.findViewById(R.id.residenttxt);
+
+        profileStorage.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(pfp);
+            }
+        });
+        DocumentReference documentReference = fStore.collection("Users").document("admin");
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
+                if(documentSnapshot.exists()){
+                    username.setText(documentSnapshot.getString("Name"));
+                    pillar.setText(documentSnapshot.getString("Pillar"));
+                    term.setText(documentSnapshot.getString("Term"));
+                    hostelBlock.setText(documentSnapshot.getString("Hostel Block"));
+                    hostelResident.setText(documentSnapshot.getString("Hostel resident"));
+                }
+            }
+        });
          editprofilebtn.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
                  Intent i = new Intent(getActivity(), EditPage.class);
+                 i.putExtra("username", username.getText().toString());
+                 i.putExtra("pillar", pillar.getText().toString());
+                 i.putExtra("term", term.getText().toString());
+                 i.putExtra("hostel block", hostelBlock.getText().toString());
+                 i.putExtra("hostel resident", hostelResident.getText().toString());
                  startActivity(i);
-                 FragmentManager fm = getActivity().getSupportFragmentManager();
-                 FragmentTransaction ft = fm.beginTransaction();
-                 ft.addToBackStack(UserFragment.class.getName()).commit();
-                 fm.executePendingTransactions();
              }
          });
          return rootView;
