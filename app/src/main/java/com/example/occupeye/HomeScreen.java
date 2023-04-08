@@ -28,7 +28,7 @@ public class HomeScreen extends AppCompatActivity{
         binding = ActivityHomeScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         // make changes to these
-        //        String name = realTimeDataBase.getUsername();
+        // String name = realTimeDataBase.getUsername();
 //        String term;
 //        String pillar;
 //        String HostelResident;
