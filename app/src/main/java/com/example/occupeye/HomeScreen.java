@@ -20,11 +20,19 @@ public class HomeScreen extends AppCompatActivity{
 
     ActivityHomeScreenBinding binding;
 
+    RealTimeDataBase realTimeDataBase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityHomeScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        // make changes to these
+        //        String name = realTimeDataBase.getUsername();
+//        String term;
+//        String pillar;
+//        String HostelResident;
+//        String HostelBlock;
 
         replaceFragment(new HomeFragment()); // replaces Frame Layout with home fragment on startup
 

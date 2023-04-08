@@ -16,8 +16,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.example.occupeye.Fragments.UserFragment;
 import com.google.android.material.button.MaterialButton;
 
 import java.io.FileNotFoundException;
@@ -29,6 +32,13 @@ public class EditPage extends AppCompatActivity {
     ImageView editpfp;
 
     MaterialButton backbtn;
+    MaterialButton savebtn;
+    EditText username;
+    EditText term;
+    EditText pillar;
+    EditText hostelBlock;
+    EditText hostelResident;
+
     public Bitmap getBitMap(Uri uri) throws FileNotFoundException, IOException {
 
 
@@ -73,6 +83,12 @@ public class EditPage extends AppCompatActivity {
 
         backbtn = findViewById(R.id.backbtn);
         editpfp = findViewById(R.id.edit_profile_image);
+        savebtn = findViewById(R.id.savebtn);
+        username = findViewById(R.id.editnametxt);
+        pillar = findViewById(R.id.editpillartxt);
+        hostelBlock = findViewById(R.id.editblocktxt);
+        hostelResident = findViewById(R.id.editresidenttxt);
+        term = findViewById(R.id.edittermtxt);
 
         final ActivityResultLauncher<Intent> launcherGallery = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -109,6 +125,25 @@ public class EditPage extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        savebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String Username = username.getText().toString();
+                String Pillar = pillar.getText().toString();
+                String Term = term.getText().toString();
+                String HostelBlock = hostelBlock.getText().toString();
+                String HostelResident = hostelResident.getText().toString();
+                if(Term.isEmpty() || Pillar.isEmpty() ||Username.isEmpty() ||HostelBlock.isEmpty() ||HostelResident.isEmpty()){
+                    Toast.makeText(EditPage.this, "One or many of these fields are empty", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                onBackPressed();
+                finish();
+            }
+        });
+
 
     }
 }
