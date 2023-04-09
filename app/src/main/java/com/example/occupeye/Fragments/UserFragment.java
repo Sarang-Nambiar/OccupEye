@@ -48,11 +48,7 @@ public class UserFragment extends Fragment {
     private StorageReference profileStorage;
     private FirebaseFirestore fStore;
     private Button editprofilebtn;
-    private TextView username;
-    private TextView term;
-    private TextView pillar;
-    private TextView hostelBlock;
-    private TextView hostelResident;
+    private TextView username, term, pillar, hostelBlock, hostelResident;
 
     private View rootView;
 
@@ -126,7 +122,7 @@ public class UserFragment extends Fragment {
                     pillar.setText(documentSnapshot.getString("Pillar"));
                     term.setText(documentSnapshot.getString("Term"));
                     hostelBlock.setText(documentSnapshot.getString("Hostel Block"));
-                    hostelResident.setText(documentSnapshot.getString("Hostel resident"));
+                    hostelResident.setText(documentSnapshot.getString("Hostel Resident"));
                 }
             }
         });
@@ -135,10 +131,6 @@ public class UserFragment extends Fragment {
              public void onClick(View view) {
                  Intent i = new Intent(getActivity(), EditPage.class);
                  i.putExtra("username", username.getText().toString());
-                 i.putExtra("pillar", pillar.getText().toString());
-                 i.putExtra("term", term.getText().toString());
-                 i.putExtra("hostel block", hostelBlock.getText().toString());
-                 i.putExtra("hostel resident", hostelResident.getText().toString());
                  startActivity(i);
              }
          });

@@ -17,6 +17,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -43,24 +46,23 @@ import java.util.Map;
 
 public class EditPage extends AppCompatActivity {
     FirebaseFirestore db;
-    StorageReference storageReference;
-    StorageReference profileRef;
+    StorageReference storageReference, profileRef;
     ImageView editpfp;
     Uri pfpUri;
-    MaterialButton backbtn;
-    MaterialButton savebtn;
+    MaterialButton backbtn, savebtn;
     EditText username;
-    EditText term;
-    EditText pillar;
-    EditText hostelBlock;
-    EditText hostelResident;
+    AutoCompleteTextView autoCompleteterm, autoCompletepillar, autoCompleteblock, autoCompleteresident;
+    ArrayAdapter<String> adapterItems1, adapterItems2, adapterItems3, adapterItems4;
+    String term = "";
+    String pillar = "";
+    String block = "";
+    String resident = "";
+    String[] terms = {"Term 1, Freshmore", "Term 2, Freshmore", "Term 3, Freshmore",
+    "Term 4, Sophomore", "Term 5, Junior", "Term 6, Junior", "Term 7, Senior", "Term 8, Senior"};
+    String[] pillars = {"ASD", "CSD", "DAI", "EPD", "ESD"};
+    String[] blocks = {"55", "57", "59"};
+    String[] residents = {"Yes", "No"};
 
-
-    private static int getPowerOfTwoForSampleRatio(double ratio){
-        int k = Integer.highestOneBit((int)Math.floor(ratio));
-        if(k==0) return 1;
-        else return k;
-    }
 
 
     @Override
@@ -70,10 +72,6 @@ public class EditPage extends AppCompatActivity {
 
         Intent data = getIntent();
         String name = data.getStringExtra("username");
-        String Pillar = data.getStringExtra("pillar");
-        String Term = data.getStringExtra("term");
-        String HostelBlock = data.getStringExtra("hostel block");
-        String HostelResident = data.getStringExtra("hostel resident");
         db = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
         profileRef = storageReference.child("Users/"+"admin"+"/profile.jpg");
@@ -82,17 +80,53 @@ public class EditPage extends AppCompatActivity {
         editpfp = findViewById(R.id.edit_profile_image);
         savebtn = findViewById(R.id.savebtn);
         username = findViewById(R.id.editnametxt);
-        pillar = findViewById(R.id.editpillartxt);
-        hostelBlock = findViewById(R.id.editblocktxt);
-        hostelResident = findViewById(R.id.editresidenttxt);
-        term = findViewById(R.id.edittermtxt);
+        autoCompleteterm = findViewById(R.id.autocompleteterm);
+        autoCompletepillar = findViewById(R.id.autocompletepillar);
+        autoCompleteblock = findViewById(R.id.autocompleteblock);
+        autoCompleteresident = findViewById(R.id.autocompleteresident);
 
         username.setText(name);
-        pillar.setText(Pillar);
-        hostelBlock.setText(HostelBlock);
-        hostelResident.setText(HostelResident);
-        term.setText(Term);
 
+        adapterItems1 = new ArrayAdapter<String>(this,R.layout.list_item, terms);
+        autoCompleteterm.setAdapter(adapterItems1);
+
+        adapterItems2 = new ArrayAdapter<String>(this, R.layout.list_item, pillars);
+        autoCompletepillar.setAdapter(adapterItems2);
+
+        adapterItems3 = new ArrayAdapter<String>(this, R.layout.list_item, blocks);
+        autoCompleteblock.setAdapter(adapterItems3);
+
+        adapterItems4 = new ArrayAdapter<String>(this, R.layout.list_item, residents);
+        autoCompleteresident.setAdapter(adapterItems4);
+
+        autoCompleteblock.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String item = adapterView.getItemAtPosition(i).toString();
+                block = item;
+            }
+        });
+        autoCompleteresident.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String item = adapterView.getItemAtPosition(i).toString();
+                resident = item;
+            }
+        });
+        autoCompletepillar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String item = adapterView.getItemAtPosition(i).toString();
+                pillar = item;
+            }
+        });
+        autoCompleteterm.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String item = adapterView.getItemAtPosition(i).toString();
+                term = item;
+            }
+        });
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -132,18 +166,14 @@ public class EditPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String Username = username.getText().toString();
-                String Pillar = pillar.getText().toString();
-                String Term = term.getText().toString();
-                String HostelBlock = hostelBlock.getText().toString();
-                String HostelResident = hostelResident.getText().toString();
                 Map<String, Object> user = new HashMap<>();
                 user.put("Name", Username);
-                user.put("Pillar", Pillar);
-                user.put("Term", Term);
-                user.put("Hostel Block", HostelBlock);
-                user.put("Hostel Resident", HostelResident);
+                user.put("Hostel Resident", resident);
+                user.put("Pillar", pillar);
+                user.put("Term", term);
+                user.put("Hostel Block", block);
 
-                if(Term.isEmpty() || Pillar.isEmpty() ||Username.isEmpty() ||HostelBlock.isEmpty() ||HostelResident.isEmpty()){
+                if(Username.isEmpty() || term.isEmpty() || pillar.isEmpty() || block.isEmpty() || resident.isEmpty()){
                     Toast.makeText(EditPage.this, "One or many of these fields are empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
