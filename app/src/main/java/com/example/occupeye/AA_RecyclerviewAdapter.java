@@ -23,7 +23,6 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
 
     public AA_RecyclerviewAdapter(Context context, ArrayList<CategoryCreatorModel> creatorModel) {
         this.context = context;
-
         this.creatorModel=creatorModel;
 
     }
@@ -65,7 +64,7 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
         return creatorModel.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
+    class MyViewHolder extends RecyclerView.ViewHolder{
         ImageView background;
         TextView roomName;
         Button bookmarkButton;
@@ -78,5 +77,11 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
             bookmarkButton=itemView.findViewById(R.id.buttonbookmark);
 
         }
+    }
+
+    public interface OnItemClickListener {
+        public void onItemClick(View view, int position);
+
+        public void onLongItemClick(View view, int position);
     }
 }

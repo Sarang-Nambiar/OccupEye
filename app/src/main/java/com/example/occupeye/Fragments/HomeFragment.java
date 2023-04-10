@@ -16,10 +16,9 @@ import android.widget.Button;
 import com.example.occupeye.AA_RecyclerviewAdapter;
 import com.example.occupeye.Bookmark;
 import com.example.occupeye.CategoryCreatorModel;
-import com.example.occupeye.Home;
-import com.example.occupeye.Login;
 import com.example.occupeye.R;
-import com.example.occupeye.Register;
+import com.example.occupeye.RecyclerItemClickListener;
+import com.example.occupeye.RoomPage;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -31,7 +30,7 @@ import java.util.HashMap;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment{
     View rootView;
     Button loginTester;
 
@@ -42,6 +41,8 @@ public class HomeFragment extends Fragment {
     View collegeselbtn;
     View libselbtn;
     DatabaseReference myRef;
+    RecyclerView recyclerView;
+    ArrayList<String> roomName;
     Bookmark bookmark=Bookmark.getBookmark();
 
     HashMap<String,String> obj=new HashMap<>();
@@ -101,7 +102,7 @@ public class HomeFragment extends Fragment {
         allselbtn=rootView.findViewById(R.id.category_sel_all);
         libselbtn=rootView.findViewById(R.id.category_sel_lib);
         collegeselbtn=rootView.findViewById(R.id.category_sel_college);
-        registerTester=rootView.findViewById(R.id.register);
+        recyclerView = rootView.findViewById(R.id.myRecyclerView);
         //SETTING UP DEFAULT DISPLAY ITEMS
         setUpCategoryModel("all");
         setUpRecyclerView();
@@ -141,11 +142,22 @@ public class HomeFragment extends Fragment {
             }
 
         });
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                startActivity(new Intent(getActivity(), RoomPage.class));
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+
+            }
+        }));
         return rootView;
     }
     private void setUpRecyclerView(){
         //Setting up the recycler view
-        RecyclerView recyclerView=rootView.findViewById(R.id.myRecyclerView);
+        recyclerView=rootView.findViewById(R.id.myRecyclerView);
         AA_RecyclerviewAdapter adapter=new AA_RecyclerviewAdapter(rootView.getContext(),categoryModel);
         recyclerView.setAdapter(adapter);
 
@@ -161,7 +173,7 @@ public class HomeFragment extends Fragment {
 
 
         if (buttonName=="all"){
-            ArrayList<String> roomName = new ArrayList<>();
+            roomName = new ArrayList<>();
             ArrayList<Integer> imageno = new ArrayList<>();
 
 
@@ -199,4 +211,5 @@ public class HomeFragment extends Fragment {
         }
 
     }
+
 }
