@@ -3,6 +3,7 @@ package com.example.occupeye;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,6 +11,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 public class Login extends AppCompatActivity {
     Button login;
@@ -23,6 +31,8 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference mRef=database.getReference().child("Users");
 
         //INITIALLIZING THE VARIABLES
         login=findViewById(R.id.loggin);
@@ -69,22 +79,51 @@ public class Login extends AppCompatActivity {
         });
 
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+//        login.setOnClickListener(new View.OnClickListener() {
 
-                if(username_status && password_status){
-                    Intent intent=new Intent(Login.this, Home.class);
-                    startActivity(intent);
-                }else {
-                    Toast.makeText(Login.this,"Invalid Entries",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+//            public void onClick(View view) {
+//                User user=new User(username.getText().toString(),password.getText().toString());
+//
+//                if(user.validate_login()){
+//                    mRef.child(username.getText().toString()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+//                            if (!task.isSuccessful()) {
+//                                Log.e("firebase", "Error getting data", task.getException());
+//                                Toast.makeText(Login.this,"User not registered",Toast.LENGTH_SHORT).show();
+//                            }
+//                            else {
+//                                Log.d("firebase","connected");
+//
+//                                HashMap<String,String>data= (HashMap<String, String>) task.getResult().getValue();
+//                                try{if(password.getText().toString().equals(data.get("password"))){
+//                                    Intent intent=new Intent(Login.this,MainActivity.class);
+//                                    startActivity(intent);
+//
+//                                }
+//                                else {
+//                                    Toast.makeText(Login.this,"Invalid Username/Password",Toast.LENGTH_SHORT).show();
+//                                }}catch (Exception e){
+//                                    Toast.makeText(Login.this,"User not registered",Toast.LENGTH_SHORT).show();
+//                                }
+//
+//                            }
+//                        }
+//                    });
+//
+//                }else {
+//                    Toast.makeText(Login.this,"Invalid Entries",Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 //TODO intent for the register page
+
+                Intent intent=new Intent(Login.this,Register.class);
+                startActivity(intent);
             }
         });
     }

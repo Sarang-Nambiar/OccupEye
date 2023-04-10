@@ -22,7 +22,12 @@
         <activity android:name=".ForgotPasswordPage"
             android:exported="false">
         </activity>
-
+        <activity android:name=".Login"
+            android:exported="false">
+        </activity>
+        <activity android:name=".Register"
+            android:exported="false">
+        </activity>
 
         <activity
             android:name=".HomeScreen"
