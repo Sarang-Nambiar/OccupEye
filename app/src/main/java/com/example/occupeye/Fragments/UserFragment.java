@@ -9,6 +9,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.occupeye.Adapters.myRvAdapter;
 import com.example.occupeye.EditPage;
 import com.example.occupeye.R;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -30,6 +33,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.concurrent.Executor;
 
 /**
@@ -43,6 +47,10 @@ public class UserFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private RecyclerView rv;
+    private myRvAdapter myRvAdapter;
+    private ArrayList<String> dataSource;
+    LinearLayoutManager linearLayoutManager; // every recycler view needs this
 
     private StorageReference storageReference;
     private StorageReference profileStorage;
@@ -106,6 +114,17 @@ public class UserFragment extends Fragment {
          term = rootView.findViewById(R.id.termtxt);
          hostelBlock = rootView.findViewById(R.id.blocktxt);
          hostelResident = rootView.findViewById(R.id.residenttxt);
+         rv = rootView.findViewById(R.id.bookmarksRv);
+
+         dataSource = new ArrayList<>();
+         dataSource.add("Study room");
+         dataSource.add("Meeting room");
+         dataSource.add("Albert hong");
+         dataSource.add("bruh");
+         linearLayoutManager = new LinearLayoutManager(rootView.getContext(), LinearLayoutManager.HORIZONTAL, false);
+         myRvAdapter = new myRvAdapter(rootView.getContext(), dataSource);
+         rv.setLayoutManager(linearLayoutManager);
+         rv.setAdapter(myRvAdapter);
 
         profileStorage.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override

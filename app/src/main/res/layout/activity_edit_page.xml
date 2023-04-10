@@ -112,6 +112,8 @@
                     android:layout_width="180dp"
                     android:layout_height="60dp"
                     android:textSize="12dp"
+                    android:cursorVisible="false"
+                    android:focusableInTouchMode="false"
                     android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -173,6 +175,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="10dp"
+                    android:cursorVisible="false"
+                    android:focusableInTouchMode="false"
                     android:inputType="none"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -197,6 +201,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="10dp"
+                    android:cursorVisible="false"
+                    android:focusableInTouchMode="false"
                     android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -232,6 +238,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="10dp"
+                android:cursorVisible="false"
+                android:focusableInTouchMode="false"
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 

@@ -32,7 +32,6 @@ public class Card_Recycler_Adapter extends RecyclerView.Adapter<Card_Recycler_Ad
     @Override
     public void onBindViewHolder(@NonNull Card_Recycler_Adapter.myViewHolder holder, int position) {
         //assign values to views as they come back on the screen
-
         holder.locationView.setText((CharSequence) cardModelArrayList.get(position));
     }
 

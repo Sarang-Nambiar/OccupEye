@@ -145,6 +145,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/iconhover"
                 android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -178,7 +179,7 @@
             android:text=""
             android:layout_marginRight="162dp"
             android:textSize="15dp"
-            android:layout_marginBottom="18dp"
+            android:layout_marginBottom="5dp"
             />
         <TextView
             android:layout_width="wrap_content"
@@ -187,6 +188,15 @@
             android:textSize="18dp"
             android:textStyle="bold"
             android:textColor="@color/iconhover"
-            android:layout_marginLeft="20dp"/>
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="3dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/bookmarksRv"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scrollbars="horizontal"
+            />
     </LinearLayout>
+
 </FrameLayout>
