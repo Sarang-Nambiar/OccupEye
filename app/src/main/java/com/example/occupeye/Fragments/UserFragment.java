@@ -148,6 +148,9 @@ public class UserFragment extends Fragment {
          editprofilebtn.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
+                 FragmentTransaction ft = getFragmentManager().beginTransaction();
+                 ft.addToBackStack(null);
+                 ft.commit();
                  Intent i = new Intent(getActivity(), EditPage.class);
                  i.putExtra("username", username.getText().toString());
                  startActivity(i);

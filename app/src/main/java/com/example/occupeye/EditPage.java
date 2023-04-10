@@ -6,6 +6,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -26,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.occupeye.Fragments.UserFragment;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,6 +37,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
@@ -53,6 +56,7 @@ public class EditPage extends AppCompatActivity {
     EditText username;
     AutoCompleteTextView autoCompleteterm, autoCompletepillar, autoCompleteblock, autoCompleteresident;
     ArrayAdapter<String> adapterItems1, adapterItems2, adapterItems3, adapterItems4;
+    StorageTask uploadTask;
     String term = "";
     String pillar = "";
     String block = "";
@@ -201,26 +205,20 @@ public class EditPage extends AppCompatActivity {
 
     private void uploadImageToFirebase(Uri imageUri) {
         final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Set your profile");
+        progressDialog.setTitle("Uploading....");
         progressDialog.setMessage("Please wait while we are updating your data");
         progressDialog.show();
         // uploading image to firebase storage
         StorageReference fileRef = storageReference.child("Users/"+"admin"+"/profile.jpg");
-        fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                progressDialog.dismiss();
-                Toast.makeText(EditPage.this, "Failed to upload the image", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+        fileRef.putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(EditPage.this, "Image uploaded", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(EditPage.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                }
                 progressDialog.dismiss();
-                Toast.makeText(EditPage.this, "Image has been updated", Toast.LENGTH_SHORT).show();
             }
         });
     }
