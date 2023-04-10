@@ -1,5 +1,6 @@
 package com.example.occupeye.Fragments;
 
+import android.content.ClipData;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import com.example.occupeye.R;
 
@@ -29,6 +31,8 @@ public class SearchFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private SearchView searchView;
 
     View rootView;
     public SearchFragment() {
@@ -64,6 +68,7 @@ public class SearchFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+
     }
 
     private void setUpCardsModels(){
@@ -72,6 +77,9 @@ public class SearchFragment extends Fragment {
         for (int i = 0; i< cardLocations.length; i++){
             cardModels.add(new CardModel(cardLocations[i]));
         }
+
+        System.out.println(cardLocations.length);
+
     }
 
     @Override
@@ -88,6 +96,27 @@ public class SearchFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        searchView = rootView.findViewById(R.id.searchView);
+        searchView.clearFocus();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                String newText = "";
+                filterList(newText);
+                return false;
+            }
+        });
+
         return rootView;
+    }
+
+
+    private void filterList(String text){
+        ArrayList<CardModel> filteredList = new ArrayList<>();
     }
 }
