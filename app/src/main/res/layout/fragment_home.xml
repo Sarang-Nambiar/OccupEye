@@ -11,21 +11,7 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity"
         android:background="#F5F9E9">
-        <Button
-            android:id="@+id/login"
-            android:layout_width="match_parent"
-            android:layout_height="20sp"
-            tools:ignore="MissingConstraints"/>
 
-        <Button
-            android:id="@+id/register"
-            android:layout_width="match_parent"
-            android:layout_height="20sp"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="57dp">
-
-        </Button>
 
         <TextView
             android:id="@+id/title"
