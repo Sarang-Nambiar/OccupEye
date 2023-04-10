@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.occupeye.Adapters.SliderAdapter;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
@@ -78,6 +79,8 @@ public class RoomPage extends AppCompatActivity {
 
         TextView mainText = findViewById(R.id.maintext);
         mainText.setText(title);
+        System.out.println(title);
+        Toast.makeText(this, title, Toast.LENGTH_SHORT).show();
 
         ImageView mainImage = findViewById(R.id.topimage);
         mainImage.setImageResource(contentList.get(0));

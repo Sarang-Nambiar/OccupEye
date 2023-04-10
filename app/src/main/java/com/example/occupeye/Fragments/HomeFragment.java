@@ -165,7 +165,8 @@ public class HomeFragment extends Fragment{
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                startActivity(new Intent(getActivity(), RoomPage.class));
+                startActivity(new Intent(getActivity(), RoomPage.class)
+                        .putExtra("roomName", roomName));
             }
 
             @Override
