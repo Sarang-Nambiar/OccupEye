@@ -32,6 +32,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -124,8 +126,47 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
 
                 Log.d("HOSTELSEL", "HOSTEL ROOMS ONLY");
-                setUpCategoryModel("hostel");
-                setUpRecyclerView();
+                ExecutorService executorService= Executors.newFixedThreadPool(2);
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        synchronized (this){
+
+                            try {
+
+                                wait();
+                                System.out.println("REACHED????????");
+                                setUpRecyclerView();
+                            } catch (InterruptedException e) {
+                                System.out.println("Error 2");
+                            }
+
+                        }
+                    }
+                });
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        synchronized (this){
+                            try{
+                                System.out.println("Check1");
+                                setUpCategoryModel("hostel");
+                                System.out.println("check 2");
+                                notify();
+                            }catch (Exception e){
+                                System.out.println("Error 1");
+                            }
+
+
+                        }
+
+                    }
+                });
+
+
+
+
+
 
                 Log.d("label2","msg2");
 
@@ -209,6 +250,7 @@ public class HomeFragment extends Fragment {
                             for(int i=0;i<roomName.size();i++){
                                 categoryModel.add(new CategoryCreatorModel(roomName.get(i),imageno[0]));
                             }
+
                         }
                     }else{
                         Log.d("label6","myRef");
