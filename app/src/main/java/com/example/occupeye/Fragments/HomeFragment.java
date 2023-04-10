@@ -126,42 +126,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
 
                 Log.d("HOSTELSEL", "HOSTEL ROOMS ONLY");
-                ExecutorService executorService= Executors.newFixedThreadPool(2);
-                executorService.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        synchronized (this){
-
-                            try {
-
-                                wait();
-                                System.out.println("REACHED????????");
-                                setUpRecyclerView();
-                            } catch (InterruptedException e) {
-                                System.out.println("Error 2");
-                            }
-
-                        }
-                    }
-                });
-                executorService.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        synchronized (this){
-                            try{
-                                System.out.println("Check1");
-                                setUpCategoryModel("hostel");
-                                System.out.println("check 2");
-                                notify();
-                            }catch (Exception e){
-                                System.out.println("Error 1");
-                            }
-
-
-                        }
-
-                    }
-                });
+                setUpCategoryModel("hostel");
 
 
 
@@ -199,7 +164,8 @@ public class HomeFragment extends Fragment {
         });
         return rootView;
     }
-    private void setUpRecyclerView(){
+
+    public void setUpRecyclerView(){
         //Setting up the recycler view
         RecyclerView recyclerView=rootView.findViewById(R.id.myRecyclerView);
         AA_RecyclerviewAdapter adapter=new AA_RecyclerviewAdapter(rootView.getContext(),categoryModel);
@@ -250,6 +216,7 @@ public class HomeFragment extends Fragment {
                             for(int i=0;i<roomName.size();i++){
                                 categoryModel.add(new CategoryCreatorModel(roomName.get(i),imageno[0]));
                             }
+                            setUpRecyclerView();
 
                         }
                     }else{
