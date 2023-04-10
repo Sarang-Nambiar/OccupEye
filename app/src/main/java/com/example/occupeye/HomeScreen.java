@@ -26,18 +26,7 @@ public class HomeScreen extends AppCompatActivity{
 
     ActivityHomeScreenBinding binding;
 
-    Button loginTester;
 
-    Button registerTester;
-    ArrayList<CategoryCreatorModel> categoryModel=new ArrayList<>();
-    View hostelselbtn;
-    View allselbtn;
-    View collegeselbtn;
-    View libselbtn;
-    DatabaseReference myRef;
-    Bookmark bookmark=Bookmark.getBookmark();
-
-    HashMap<String,String> obj=new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
