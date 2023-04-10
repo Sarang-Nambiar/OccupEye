@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 
@@ -39,7 +40,7 @@ public class Register extends AppCompatActivity {
     boolean block55_sel;
     boolean block57_sel;
     boolean block59_sel;
-
+    FirebaseFirestore db;
     SwitchCompat hostel_toggle;
     EditText username;
     EditText email;
@@ -63,7 +64,7 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://occupeye-dedb8-default-rtdb.asia-southeast1.firebasedatabase.app");
-
+        db=FirebaseFirestore.getInstance();
 
         block55_sel=false;
         block59_sel=false;
@@ -110,6 +111,7 @@ public class Register extends AppCompatActivity {
                             else {
                                 System.out.println("CHEKC2");
                                 myRef.setValue(user.database_obj());
+                                db.collection("Users").document(username.getText().toString()).set(user.database_obj());
                                 //Log database stored
 
                                 myRef.addValueEventListener(new ValueEventListener() {
