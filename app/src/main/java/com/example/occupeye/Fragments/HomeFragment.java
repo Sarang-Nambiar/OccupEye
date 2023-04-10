@@ -3,6 +3,7 @@ package com.example.occupeye.Fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.occupeye.AA_RecyclerviewAdapter;
 import com.example.occupeye.Bookmark;
@@ -19,11 +21,17 @@ import com.example.occupeye.CategoryCreatorModel;
 import com.example.occupeye.R;
 import com.example.occupeye.RecyclerItemClickListener;
 import com.example.occupeye.RoomPage;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,10 +48,12 @@ public class HomeFragment extends Fragment{
     View allselbtn;
     View collegeselbtn;
     View libselbtn;
-    DatabaseReference myRef;
     RecyclerView recyclerView;
     ArrayList<String> roomName;
     Bookmark bookmark=Bookmark.getBookmark();
+
+    FirebaseDatabase database;
+    DatabaseReference myRef;
 
     HashMap<String,String> obj=new HashMap<>();
 
@@ -81,6 +91,7 @@ public class HomeFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -90,10 +101,12 @@ public class HomeFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        Log.d("label", "msg1");
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Location");
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://occupeye-dedb8-default-rtdb.asia-southeast1.firebasedatabase.app");
+        myRef = database.getReference("Locations");
 
 
         //INITIALISING DOM ELEMENTS
@@ -114,7 +127,14 @@ public class HomeFragment extends Fragment{
 
                 Log.d("HOSTELSEL", "HOSTEL ROOMS ONLY");
                 setUpCategoryModel("hostel");
-                setUpRecyclerView();
+
+
+
+
+
+
+                Log.d("label2","msg2");
+
             }
         });
         collegeselbtn.setOnClickListener(new View.OnClickListener() {
@@ -155,7 +175,8 @@ public class HomeFragment extends Fragment{
         }));
         return rootView;
     }
-    private void setUpRecyclerView(){
+
+    public void setUpRecyclerView(){
         //Setting up the recycler view
         recyclerView=rootView.findViewById(R.id.myRecyclerView);
         AA_RecyclerviewAdapter adapter=new AA_RecyclerviewAdapter(rootView.getContext(),categoryModel);
@@ -170,7 +191,7 @@ public class HomeFragment extends Fragment{
     }
 
     private void setUpCategoryModel(String buttonName){
-
+        Log.d("settingup","settingupmodels");
 
         if (buttonName=="all"){
             roomName = new ArrayList<>();
@@ -184,12 +205,38 @@ public class HomeFragment extends Fragment{
             }
             System.out.println(Bookmark.getBookmarkedLocs());
         } else if (buttonName=="hostel") {
-            categoryModel.clear();
-            String[] roomName={"SUTD HOSTEL"};
+
+            Log.d("settingup2","settingupmodels2");
+            ArrayList<String> roomName = new ArrayList<>();
             int[] imageno={R.drawable.hostel_img};
-            for(int i=0;i<roomName.length;i++){
-                categoryModel.add(new CategoryCreatorModel(roomName[i],imageno[i]));
-            }
+            System.out.println(myRef);
+            myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (!task.isSuccessful()) {Toast.makeText(getContext(),"Unable to get data",Toast.LENGTH_SHORT).show();}
+                    if (task.isSuccessful()){
+                        Log.d("settingup3","settingupmodels3");
+                        if(task.getResult().exists()){
+                            DataSnapshot dataSnapshot = task.getResult();
+                            HashMap<String,String>data= (HashMap<String, String>) task.getResult().getValue();
+                            for ( String key : data.keySet() ) {
+                                Log.d("label3", String.valueOf(key));
+                                Log.d("label4", "msg4");
+                                roomName.add(String.valueOf(key));
+                            }
+                            for(int i=0;i<roomName.size();i++){
+                                categoryModel.add(new CategoryCreatorModel(roomName.get(i),imageno[0]));
+                            }
+                            setUpRecyclerView();
+
+                        }
+                    }else{
+                        Log.d("label6","myRef");
+                    }
+                }
+            });
+
+
 
         }else if (buttonName=="lib"){
             categoryModel.clear();
