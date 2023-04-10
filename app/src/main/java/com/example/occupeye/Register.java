@@ -19,6 +19,8 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,6 +48,8 @@ public class Register extends AppCompatActivity {
     EditText email;
     EditText password;
     DatabaseReference myRef;
+
+    FirebaseAuth firebaseAuth;
     private boolean block_checker(){
         if(block57_sel ||block59_sel ||block55_sel)return true;
         else if (!hostel_toggle.isChecked()) {return true;
@@ -94,7 +98,6 @@ public class Register extends AppCompatActivity {
                 //email checker
                 //block select
                 System.out.println(user.validate());
-                Toast.makeText(Register.this, "brudda stfu", Toast.LENGTH_SHORT).show();
                 if(user.validate()&&block_checker()){
                     //TODO send data to firebase collection
                     System.out.println("Check2");
@@ -126,8 +129,22 @@ public class Register extends AppCompatActivity {
                                         Log.w("FirebaseElement", "Failed to read value.", error.toException());
                                     }
                                 });
-                                Intent intent=new Intent(Register.this,HomeScreen.class);
-                                startActivity(intent);
+                                firebaseAuth = FirebaseAuth.getInstance();
+                                firebaseAuth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword())
+                                        .addOnCompleteListener(Register.this, new OnCompleteListener<AuthResult>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                                if (task.isSuccessful()) {
+                                                    // Sign up success, update UI with the signed-in user's information
+                                                    Intent intent = new Intent(Register.this, HomeScreen.class);
+                                                    startActivity(intent);
+                                                } else {
+                                                    // If sign up fails, display a message to the user.
+                                                    Toast.makeText(Register.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+
                             }
                         }
 
