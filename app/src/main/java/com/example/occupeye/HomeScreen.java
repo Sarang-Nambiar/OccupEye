@@ -8,6 +8,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.occupeye.Fragments.ExploreFragment;
 import com.example.occupeye.Fragments.HomeFragment;
@@ -15,12 +17,27 @@ import com.example.occupeye.Fragments.SearchFragment;
 import com.example.occupeye.Fragments.UserFragment;
 import com.example.occupeye.databinding.ActivityHomeScreenBinding;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.database.DatabaseReference;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class HomeScreen extends AppCompatActivity{
 
     ActivityHomeScreenBinding binding;
 
-    RealTimeDataBase realTimeDataBase;
+    Button loginTester;
+
+    Button registerTester;
+    ArrayList<CategoryCreatorModel> categoryModel=new ArrayList<>();
+    View hostelselbtn;
+    View allselbtn;
+    View collegeselbtn;
+    View libselbtn;
+    DatabaseReference myRef;
+    Bookmark bookmark=Bookmark.getBookmark();
+
+    HashMap<String,String> obj=new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

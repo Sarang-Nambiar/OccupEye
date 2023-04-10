@@ -126,7 +126,7 @@ public class Register extends AppCompatActivity {
                                         Log.w("FirebaseElement", "Failed to read value.", error.toException());
                                     }
                                 });
-                                Intent intent=new Intent(Register.this,Home.class);
+                                Intent intent=new Intent(Register.this,HomeScreen.class);
                                 startActivity(intent);
                             }
                         }

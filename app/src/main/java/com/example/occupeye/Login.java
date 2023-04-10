@@ -99,7 +99,7 @@ public class Login extends AppCompatActivity {
 
                                 HashMap<String,String>data= (HashMap<String, String>) task.getResult().getValue();
                                 try{if(password.getText().toString().equals(data.get("password"))){
-                                    Intent intent=new Intent(Login.this,Home.class);
+                                    Intent intent=new Intent(Login.this,HomeScreen.class);
                                     startActivity(intent);
 
                                 }

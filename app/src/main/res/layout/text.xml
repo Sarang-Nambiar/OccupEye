@@ -10,16 +10,17 @@
         android:id="@+id/cardholder"
         android:layout_width="368dp"
         android:layout_height="175dp"
+        android:layout_marginTop="16dp"
         android:outlineAmbientShadowColor="#FFFFFF"
         android:padding="0sp"
         app:cardBackgroundColor="#A636453B"
         app:cardCornerRadius="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="#000000"
         app:strokeWidth="1sp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="16dp">
+        tools:ignore="MissingConstraints">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -36,7 +37,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="MissingConstraints"></ImageView>
+                tools:ignore="MissingConstraints" />
 
             <TextView
                 android:id="@+id/roomname"
@@ -81,12 +82,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
-
-
-
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
