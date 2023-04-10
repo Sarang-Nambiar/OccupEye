@@ -27,6 +27,7 @@
 
             <ImageView
                 android:id="@+id/background_layout"
+
                 android:layout_width="153dp"
                 android:layout_height="190sp"
 

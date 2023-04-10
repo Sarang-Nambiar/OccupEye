@@ -10,9 +10,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -79,51 +79,41 @@ public class Login extends AppCompatActivity {
         });
 
 
-//        login.setOnClickListener(new View.OnClickListener() {
-
-//            public void onClick(View view) {
-//                User user=new User(username.getText().toString(),password.getText().toString());
-//
-//                if(user.validate_login()){
-//                    mRef.child(username.getText().toString()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<DataSnapshot> task) {
-//                            if (!task.isSuccessful()) {
-//                                Log.e("firebase", "Error getting data", task.getException());
-//                                Toast.makeText(Login.this,"User not registered",Toast.LENGTH_SHORT).show();
-//                            }
-//                            else {
-//                                Log.d("firebase","connected");
-//
-//                                HashMap<String,String>data= (HashMap<String, String>) task.getResult().getValue();
-//                                try{if(password.getText().toString().equals(data.get("password"))){
-//                                    Intent intent=new Intent(Login.this,MainActivity.class);
-//                                    startActivity(intent);
-//
-//                                }
-//                                else {
-//                                    Toast.makeText(Login.this,"Invalid Username/Password",Toast.LENGTH_SHORT).show();
-//                                }}catch (Exception e){
-//                                    Toast.makeText(Login.this,"User not registered",Toast.LENGTH_SHORT).show();
-//                                }
-//
-//                            }
-//                        }
-//                    });
-//
-//                }else {
-//                    Toast.makeText(Login.this,"Invalid Entries",Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-        signin.setOnClickListener(new View.OnClickListener() {
+        login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                User user=new User(username.getText().toString(),password.getText().toString());
 
-                //TODO intent for the register page
+                if(user.validate_login()){
+                    mRef.child(username.getText().toString()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                            if (!task.isSuccessful()) {
+                                Log.e("firebase", "Error getting data", task.getException());
+                                Toast.makeText(Login.this,"User not registered",Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Log.d("firebase","connected");
 
-                Intent intent=new Intent(Login.this,Register.class);
-                startActivity(intent);
+                                HashMap<String,String>data= (HashMap<String, String>) task.getResult().getValue();
+                                try{if(password.getText().toString().equals(data.get("password"))){
+                                    Intent intent=new Intent(Login.this,Home.class);
+                                    startActivity(intent);
+
+                                }
+                                else {
+                                    Toast.makeText(Login.this,"Invalid Username/Password",Toast.LENGTH_SHORT).show();
+                                }}catch (Exception e){
+                                    Toast.makeText(Login.this,"User not registered",Toast.LENGTH_SHORT).show();
+                            }
+
+                            }
+                        }
+                    });
+
+                }else {
+                    Toast.makeText(Login.this,"Invalid Entries",Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
