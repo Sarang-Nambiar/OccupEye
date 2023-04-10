@@ -50,33 +50,17 @@ public class Home extends AppCompatActivity {
 
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home);
+        setContentView(R.layout.fragment_home);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Location");
 
 
         //INITIALISING DOM ELEMENTS
-        loginTester=findViewById(R.id.login);
         hostelselbtn=findViewById(R.id.category_sel_hostel);
         allselbtn=findViewById(R.id.category_sel_all);
         libselbtn=findViewById(R.id.category_sel_lib);
         collegeselbtn=findViewById(R.id.category_sel_college);
-        registerTester=findViewById(R.id.register);
-        //LOGIN TESTER
-        loginTester.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(Home.this,Login.class);
-                startActivity(intent);
-            }
-        });
-        registerTester.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(Home.this,Register.class);
-                startActivity(intent);
-            }
-        });
+
         //SETTING UP DEFAULT DISPLAY ITEMS
         setUpCategoryModel("all");
         setUpRecyclerView();

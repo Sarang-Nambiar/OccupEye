@@ -85,7 +85,7 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
                 CategoryCreatorModel data = creatorModel.get(position);
 
                 // Create an intent and pass the necessary data
-                Intent intent = new Intent(context, room.class);
+                Intent intent = new Intent(context, RoomPage.class);
                 intent.putExtra("roomName", data.roomName);
 
                 // Start the activity using the context variable
