@@ -25,12 +25,18 @@
         <activity android:name=".Login"
             android:exported="false">
         </activity>
+        <activity android:name=".Register"
+            android:exported="false">
+        </activity>
 
         <activity
             android:name=".HomeScreen"
             android:exported="false" />
         <activity
             android:name=".LoadingScreen"
+            android:exported="false" />
+        <activity
+            android:name=".Home"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

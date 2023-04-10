@@ -2,6 +2,7 @@ package com.example.occupeye;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.content.ContextCompat;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -60,7 +62,7 @@ public class Register extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://occupeye-dedb8-default-rtdb.asia-southeast1.firebasedatabase.app");
 
 
         block55_sel=false;
@@ -90,12 +92,15 @@ public class Register extends AppCompatActivity {
                 //password checker
                 //email checker
                 //block select
+                System.out.println(user.validate());
+                Toast.makeText(Register.this, "brudda stfu", Toast.LENGTH_SHORT).show();
                 if(user.validate()&&block_checker()){
                     //TODO send data to firebase collection
-
+                    System.out.println("Check2");
                     user.setBlock(getActiveBlock());
                     myRef = database.getReference("Users").child(username.getText().toString());
                     boolean user_presnt;
+                    System.out.println(myRef);
                     myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -103,8 +108,10 @@ public class Register extends AppCompatActivity {
                                 Toast.makeText(Register.this,"Username Already In Use",Toast.LENGTH_SHORT).show();
                             }
                             else {
+                                System.out.println("CHEKC2");
                                 myRef.setValue(user.database_obj());
                                 //Log database stored
+
                                 myRef.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -117,7 +124,7 @@ public class Register extends AppCompatActivity {
                                         Log.w("FirebaseElement", "Failed to read value.", error.toException());
                                     }
                                 });
-                                Intent intent=new Intent(Register.this,MainActivity.class);
+                                Intent intent=new Intent(Register.this,Home.class);
                                 startActivity(intent);
                             }
                         }
@@ -158,7 +165,8 @@ public class Register extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(block55_sel){
-                    block55.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                    ColorStateList colorStateList = ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.white));
+                    block55.setBackgroundTintList(colorStateList);
                     block55.setTextColor(Color.parseColor("#E3655B"));
                     block55_sel=false;
                     return;
@@ -167,7 +175,8 @@ public class Register extends AppCompatActivity {
                     return;
                 }
                 block55_sel=true;
-                block55.setBackgroundColor(Color.parseColor("#E3655B"));
+                ColorStateList colorStateList = ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.iconhover));
+                block55.setBackgroundTintList(colorStateList);
                 block55.setTextColor(Color.parseColor("#FFFFFFFF"));
             }
         });
@@ -175,7 +184,8 @@ public class Register extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(block57_sel){
-                    block57.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                    ColorStateList colorStateList = ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.white));
+                    block57.setBackgroundTintList(colorStateList);
                     block57.setTextColor(Color.parseColor("#E3655B"));
                     block57_sel=false;
                     return;
@@ -184,7 +194,8 @@ public class Register extends AppCompatActivity {
                     return;
                 }
                 block57_sel=true;
-                block57.setBackgroundColor(Color.parseColor("#E3655B"));
+                ColorStateList colorStateList = ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.iconhover));
+                block57.setBackgroundTintList(colorStateList);
                 block57.setTextColor(Color.parseColor("#FFFFFFFF"));
             }
         });
@@ -193,7 +204,8 @@ public class Register extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(block59_sel){
-                    block59.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                    ColorStateList colorStateList = ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.white));
+                    block59.setBackgroundTintList(colorStateList);
                     block59.setTextColor(Color.parseColor("#E3655B"));
                     block59_sel=false;
                     return;
@@ -202,7 +214,8 @@ public class Register extends AppCompatActivity {
                     return;
                 }
                 block59_sel=true;
-                block59.setBackgroundColor(Color.parseColor("#E3655B"));
+                ColorStateList colorStateList = ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.iconhover));
+                block59.setBackgroundTintList(colorStateList);
                 block59.setTextColor(Color.parseColor("#FFFFFFFF"));
             }
         });
