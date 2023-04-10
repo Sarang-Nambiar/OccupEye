@@ -62,6 +62,7 @@ public class Home extends AppCompatActivity {
         libselbtn=findViewById(R.id.category_sel_lib);
         collegeselbtn=findViewById(R.id.category_sel_college);
         registerTester=findViewById(R.id.register);
+
         //LOGIN TESTER
         loginTester.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,6 +117,16 @@ public class Home extends AppCompatActivity {
             }
 
         });
+
+        Intent intent = getIntent();
+        boolean hostelview = intent.getBooleanExtra("hostelselbtn", false);
+        if(hostelview){
+            hostelselbtn.performClick();
+        }
+        boolean libview = intent.getBooleanExtra("libselbtn", false);
+        if(hostelview){
+            libselbtn.performClick();
+        }
 
 
     }

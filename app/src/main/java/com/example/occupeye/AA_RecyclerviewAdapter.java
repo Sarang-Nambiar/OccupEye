@@ -1,7 +1,7 @@
 package com.example.occupeye;
 
 import android.content.Context;
-import android.util.Log;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -19,7 +18,6 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
     Context context;
     ArrayList<CategoryCreatorModel> creatorModel;
     Bookmark bookmark=Bookmark.getBookmark();
-
 
     public AA_RecyclerviewAdapter(Context context, ArrayList<CategoryCreatorModel> creatorModel) {
         this.context = context;
@@ -65,18 +63,36 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
         return creatorModel.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
-        ImageView background;
-        TextView roomName;
-        Button bookmarkButton;
 
-        public MyViewHolder(@NonNull View itemView) {
-            super(itemView);
-            roomName=itemView.findViewById(R.id.roomname);
-            background=itemView.findViewById(R.id.background_layout);
+        class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+            ImageView background;
+            TextView roomName;
+            Button bookmarkButton;
 
-            bookmarkButton=itemView.findViewById(R.id.buttonbookmark);
+            public MyViewHolder(@NonNull View itemView) {
+                super(itemView);
+                roomName = itemView.findViewById(R.id.roomname);
+                background = itemView.findViewById(R.id.background_layout);
+                bookmarkButton = itemView.findViewById(R.id.buttonbookmark);
 
+                // Set the click listener on the itemView
+                itemView.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View view) {
+                int position = getAdapterPosition();
+                CategoryCreatorModel data = creatorModel.get(position);
+
+                // Create an intent and pass the necessary data
+                Intent intent = new Intent(context, room.class);
+                intent.putExtra("roomName", data.roomName);
+
+                // Start the activity using the context variable
+                context.startActivity(intent);
+            }
         }
+
+
+
     }
-}
