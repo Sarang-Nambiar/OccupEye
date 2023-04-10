@@ -50,8 +50,8 @@ public class HomeFragment extends Fragment {
     View libselbtn;
     Bookmark bookmark=Bookmark.getBookmark();
 
-    FirebaseDatabase database = FirebaseDatabase.getInstance("https://occupeye-dedb8-default-rtdb.asia-southeast1.firebasedatabase.app");
-    DatabaseReference myRef = database.getReference().child("Locations");
+    FirebaseDatabase database;
+    DatabaseReference myRef;
 
     HashMap<String,String> obj=new HashMap<>();
 
@@ -89,6 +89,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -102,8 +103,8 @@ public class HomeFragment extends Fragment {
         Log.d("label", "msg1");
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Location");
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://occupeye-dedb8-default-rtdb.asia-southeast1.firebasedatabase.app");
+        myRef = database.getReference("Locations");
 
 
         //INITIALISING DOM ELEMENTS
@@ -190,10 +191,11 @@ public class HomeFragment extends Fragment {
             Log.d("settingup2","settingupmodels2");
             ArrayList<String> roomName = new ArrayList<>();
             int[] imageno={R.drawable.hostel_img};
+            System.out.println(myRef);
             myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
-
+                    if (!task.isSuccessful()) {Toast.makeText(getContext(),"Unable to get data",Toast.LENGTH_SHORT).show();}
                     if (task.isSuccessful()){
                         Log.d("settingup3","settingupmodels3");
                         if(task.getResult().exists()){
