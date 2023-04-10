@@ -25,7 +25,7 @@ public class LoadingScreen extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoadingScreen.this, HomeScreen.class);
+                Intent intent = new Intent(LoadingScreen.this, Login.class);
                 startActivity(intent);
             }
         });
