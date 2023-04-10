@@ -14,18 +14,29 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Login extends AppCompatActivity {
     Button login;
     Button signin;
     EditText username;
     EditText password;
+
+    Button forgotpass;
     boolean password_status;
     boolean username_status;
 
@@ -41,6 +52,7 @@ public class Login extends AppCompatActivity {
         signin=findViewById(R.id.signup);
         username=findViewById(R.id.username);
         password=findViewById(R.id.password);
+        forgotpass=findViewById(R.id.forgot_pass);
         password_status=false;
         username_status=false;
 
@@ -84,45 +96,89 @@ public class Login extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                User user=new User(username.getText().toString(),password.getText().toString());
+                User user = new User(username.getText().toString(), password.getText().toString());
 
-                if(user.validate_login()){
+                if (user.validate_login()) {
                     mRef.child(username.getText().toString()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DataSnapshot> task) {
                             if (!task.isSuccessful()) {
                                 Log.e("firebase", "Error getting data", task.getException());
-                                Toast.makeText(Login.this,"User not registered",Toast.LENGTH_SHORT).show();
-                            }
-                            else {
-                                Log.d("firebase","connected");
+                                Toast.makeText(Login.this, "User not registered", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Log.d("firebase", "connected");
 
-                                HashMap<String,String>data= (HashMap<String, String>) task.getResult().getValue();
-                                try{if(password.getText().toString().equals(data.get("password"))){
-                                    Intent intent=new Intent(Login.this,HomeScreen.class);
-                                    startActivity(intent);
+                                HashMap<String, String> data = (HashMap<String, String>) task.getResult().getValue();
+                                try {
+                                    if (password.getText().toString().equals(data.get("password"))) {
+                                        Intent intent = new Intent(Login.this, HomeScreen.class);
+                                        startActivity(intent);
+                                    } else {
+                                        FirebaseAuth.getInstance().signInWithEmailAndPassword(data.get("email"), password.getText().toString())
+                                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                                        if (task.isSuccessful()) {
+                                                            // Update the password in Realtime Database
+                                                            mRef.child(username.getText().toString()).child("password").setValue(password.getText().toString());
 
+                                                            // Update the password in Firestore
+                                                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                                            DocumentReference userRef = db.collection("Users").document(username.getText().toString());
+                                                            Map<String, Object> updates = new HashMap<>();
+                                                            updates.put("password", password.getText().toString());
+                                                            userRef.update(updates)
+                                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                        @Override
+                                                                        public void onSuccess(Void aVoid) {
+                                                                            Intent intent = new Intent(Login.this, HomeScreen.class);
+                                                                            startActivity(intent);
+                                                                        }
+                                                                    })
+                                                                    .addOnFailureListener(new OnFailureListener() {
+                                                                        @Override
+                                                                        public void onFailure(@NonNull Exception e) {
+                                                                            Toast.makeText(Login.this, "Password update failed", Toast.LENGTH_SHORT).show();
+                                                                        }
+                                                                    });
+
+
+                                                        } else {
+                                                            Toast.makeText(Login.this, "Invalid Username/Password", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                });
+                                    }
+                                } catch (Exception e) {
+                                    Toast.makeText(Login.this, "User not registered", Toast.LENGTH_SHORT).show();
                                 }
-                                else {
-                                    Toast.makeText(Login.this,"Invalid Username/Password",Toast.LENGTH_SHORT).show();
-                                }}catch (Exception e){
-                                    Toast.makeText(Login.this,"User not registered",Toast.LENGTH_SHORT).show();
-                            }
 
                             }
                         }
                     });
 
-                }else {
-                    Toast.makeText(Login.this,"Invalid Entries",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(Login.this, "Invalid Entries", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
+
+
+
+
 
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Login.this, Register.class));
+            }
+        });
+
+        forgotpass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Login.this, ForgotPasswordPage.class));
             }
         });
     }

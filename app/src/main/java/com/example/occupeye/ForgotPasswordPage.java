@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +19,7 @@ public class ForgotPasswordPage extends AppCompatActivity {
 
     EditText email;
     Button sendlink;
+    Button login;
 
     FirebaseAuth firebaseAuth;
 
@@ -27,7 +29,7 @@ public class ForgotPasswordPage extends AppCompatActivity {
         setContentView(R.layout.activity_forgot_password_page);
 
         email = findViewById(R.id.email);
-
+        login = findViewById(R.id.login);
         sendlink = findViewById(R.id.sendlink);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -46,6 +48,13 @@ public class ForgotPasswordPage extends AppCompatActivity {
                         }
                     }
                 });
+            }
+        });
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ForgotPasswordPage.this, Login.class));
             }
         });
     }
