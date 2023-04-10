@@ -3,6 +3,7 @@ package com.example.occupeye.Fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.occupeye.AA_RecyclerviewAdapter;
 import com.example.occupeye.Bookmark;
@@ -20,8 +22,13 @@ import com.example.occupeye.Home;
 import com.example.occupeye.Login;
 import com.example.occupeye.R;
 import com.example.occupeye.Register;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,8 +48,10 @@ public class HomeFragment extends Fragment {
     View allselbtn;
     View collegeselbtn;
     View libselbtn;
-    DatabaseReference myRef;
     Bookmark bookmark=Bookmark.getBookmark();
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance("https://occupeye-dedb8-default-rtdb.asia-southeast1.firebasedatabase.app");
+    DatabaseReference myRef = database.getReference().child("Locations");
 
     HashMap<String,String> obj=new HashMap<>();
 
@@ -89,6 +98,8 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        Log.d("label", "msg1");
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -114,6 +125,9 @@ public class HomeFragment extends Fragment {
                 Log.d("HOSTELSEL", "HOSTEL ROOMS ONLY");
                 setUpCategoryModel("hostel");
                 setUpRecyclerView();
+
+                Log.d("label2","msg2");
+
             }
         });
         collegeselbtn.setOnClickListener(new View.OnClickListener() {
@@ -158,7 +172,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void setUpCategoryModel(String buttonName){
-
+        Log.d("settingup","settingupmodels");
 
         if (buttonName=="all"){
             ArrayList<String> roomName = new ArrayList<>();
@@ -172,12 +186,35 @@ public class HomeFragment extends Fragment {
             }
             System.out.println(Bookmark.getBookmarkedLocs());
         } else if (buttonName=="hostel") {
-            categoryModel.clear();
-            String[] roomName={"SUTD HOSTEL"};
+
+            Log.d("settingup2","settingupmodels2");
+            ArrayList<String> roomName = new ArrayList<>();
             int[] imageno={R.drawable.hostel_img};
-            for(int i=0;i<roomName.length;i++){
-                categoryModel.add(new CategoryCreatorModel(roomName[i],imageno[i]));
-            }
+            myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+
+                    if (task.isSuccessful()){
+                        Log.d("settingup3","settingupmodels3");
+                        if(task.getResult().exists()){
+                            DataSnapshot dataSnapshot = task.getResult();
+                            HashMap<String,String>data= (HashMap<String, String>) task.getResult().getValue();
+                            for ( String key : data.keySet() ) {
+                                Log.d("label3", String.valueOf(key));
+                                Log.d("label4", "msg4");
+                                roomName.add(String.valueOf(key));
+                            }
+                            for(int i=0;i<roomName.size();i++){
+                                categoryModel.add(new CategoryCreatorModel(roomName.get(i),imageno[0]));
+                            }
+                        }
+                    }else{
+                        Log.d("label6","myRef");
+                    }
+                }
+            });
+
+
 
         }else if (buttonName=="lib"){
             categoryModel.clear();
