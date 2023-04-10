@@ -36,15 +36,14 @@
 
     <EditText
         android:id="@+id/username"
-        android:layout_width="400sp"
+        android:layout_width="380sp"
         android:layout_height="75sp"
         android:layout_marginTop="20dp"
+        android:layout_marginStart="100dp"
         android:drawableStart="@drawable/baseline_person_24"
         android:hint="Username"
-        android:backgroundTint="@color/text_color"
-        android:maxLines="1"
+        android:background="@drawable/edittextrect"
         android:textColorHint="@color/gray"
-        android:textAlignment="center"
         android:inputType="text"
         android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
@@ -54,14 +53,13 @@
 
     <EditText
         android:id="@+id/email"
-        android:layout_width="400sp"
+        android:layout_width="350sp"
         android:layout_height="75sp"
         android:layout_marginTop="124dp"
-        android:drawableStart="@drawable/baseline_person_24"
+        android:drawableStart="@drawable/baseline_email_24"
         android:hint="Email"
         android:textColorHint="@color/gray"
         android:backgroundTint="@color/text_color"
-        android:textAlignment="center"
         android:textColor="@color/black"
         android:inputType="text"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
@@ -79,7 +77,6 @@
         android:textColorHint="@color/gray"
         android:maxLines="1"
         android:backgroundTint="@color/text_color"
-        android:textAlignment="center"
         android:textColor="@color/black"
         android:inputType="text"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
@@ -102,7 +99,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:id="@+id/buttonhdiwehfw"
+        android:id="@+id/buttonGroup"
         app:layout_constraintBottom_toTopOf="@+id/register_submit"
         android:layout_marginBottom="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -140,9 +137,9 @@
     <Button
 
         android:id="@+id/back"
-        android:background="@null"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@null"
         android:text="Back"
         android:textColor="#E3655B"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -150,7 +147,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password"
-        app:layout_constraintVertical_bias="0.868"
+        app:layout_constraintVertical_bias="0.743"
         tools:ignore="MissingConstraints">
 
     </Button>
@@ -163,6 +160,8 @@
         android:background="@drawable/roundstyle"
         android:backgroundTint="#E3655B"
         android:text="Register"
+        android:paddingLeft="100dp"
+        android:paddingRight="100dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
