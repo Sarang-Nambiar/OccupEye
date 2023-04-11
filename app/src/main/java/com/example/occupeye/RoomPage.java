@@ -14,6 +14,8 @@ import com.example.occupeye.Adapters.SliderAdapter;
 import com.example.occupeye.Fragments.HomeFragment;
 import com.example.occupeye.HomeScreen;
 import com.example.occupeye.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
@@ -33,37 +35,20 @@ public class RoomPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_explore);
 
-        List<Integer> contentBlock57 = new ArrayList<>();
-        contentBlock57.add(R.drawable.studyroom);
-        contentBlock57.add(R.string.studyrooms);
-        contentBlock57.add(R.drawable.studyroom1);
-        contentBlock57.add(R.drawable.studyroom2);
-        contentBlock57.add(R.drawable.studyroom3);
-        mContent.put("Block 57", contentBlock57);
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://occupeye-dedb8-default-rtdb.asia-southeast1.firebasedatabase.app");
+        DatabaseReference myRef = database.getReference("Locations");
 
-        List<Integer> contentBlock59 = new ArrayList<>();
-        contentBlock59.add(R.drawable.studyroom1);
-        contentBlock59.add(R.string.studyrooms);
-        contentBlock59.add(R.drawable.studyroom);
-        contentBlock59.add(R.drawable.studyroom2);
-        contentBlock59.add(R.drawable.studyroom3);
-        mContent.put("Block 59", contentBlock59);
-
-        List<Integer> contentBlock55 = new ArrayList<>();
-        contentBlock55.add(R.drawable.studyroom2);
-        contentBlock55.add(R.string.studyrooms);
-        contentBlock55.add(R.drawable.studyroom1);
-        contentBlock55.add(R.drawable.studyroom);
-        contentBlock55.add(R.drawable.studyroom3);
-        mContent.put("Block 55", contentBlock55);
-
-        List<Integer> contentHostel = new ArrayList<>();
-        contentHostel.add(R.drawable.hostelroom);
-        contentHostel.add(R.string.hostel);
-        contentHostel.add(R.drawable.hostel1);
-        contentHostel.add(R.drawable.hostel2);
-        contentHostel.add(R.drawable.hostel3);
-        mContent.put("SUTD HOSTEL", contentHostel);
+        List<Integer> contentStudyRoom = new ArrayList<>();
+        contentStudyRoom.add(R.drawable.studyroom);
+        contentStudyRoom.add(R.string.studyrooms);
+        contentStudyRoom.add(R.drawable.studyroom1);
+        contentStudyRoom.add(R.drawable.studyroom2);
+        contentStudyRoom.add(R.drawable.studyroom3);
+        mContent.put("Study Room 2", contentStudyRoom);
+        mContent.put("Study Room 4", contentStudyRoom);
+        mContent.put("Study Room 6", contentStudyRoom);
+        mContent.put("Study Room 9", contentStudyRoom);
+        mContent.put("Test Room", contentStudyRoom);
 
         List<Integer> contentLibrary = new ArrayList<>();
         contentLibrary.add(R.drawable.library);
@@ -71,7 +56,20 @@ public class RoomPage extends AppCompatActivity {
         contentLibrary.add(R.drawable.library1);
         contentLibrary.add(R.drawable.library2);
         contentLibrary.add(R.drawable.library3);
-        mContent.put("SUTD LIBRARY", contentLibrary);
+        mContent.put("Discussion Room 1", contentLibrary);
+        mContent.put("Discussion Room 2", contentLibrary);
+        mContent.put("Discussion Room 6", contentLibrary);
+        mContent.put("Discussion Room 3", contentLibrary);
+
+        List<Integer> contentCollege = new ArrayList<>();
+        contentCollege.add(R.drawable.college1);
+        contentCollege.add(R.string.college);
+        contentCollege.add(R.drawable.college1);
+        contentCollege.add(R.drawable.college2);
+        contentCollege.add(R.drawable.college3);
+        mContent.put("Cohort Class 6", contentCollege);
+        mContent.put("Think Tank 11", contentCollege);
+        mContent.put("Think Tank 15", contentCollege);
 
 
         Intent intent = getIntent();
