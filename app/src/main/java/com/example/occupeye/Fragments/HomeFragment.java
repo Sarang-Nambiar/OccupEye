@@ -118,7 +118,6 @@ public class HomeFragment extends Fragment{
 
 
         //INITIALISING DOM ELEMENTS
-        loginTester=rootView.findViewById(R.id.login);
         hostelselbtn=rootView.findViewById(R.id.category_sel_hostel);
         allselbtn=rootView.findViewById(R.id.category_sel_all);
         libselbtn=rootView.findViewById(R.id.category_sel_lib);
@@ -238,8 +237,6 @@ public class HomeFragment extends Fragment{
             fetchData("college", false);
             fetchData("lib", false);
         }
-
-        loginTester=rootView.findViewById(R.id.login);
 
         ArrayList<String> roomName = new ArrayList<>();
         ArrayList<String> colours = new ArrayList<>();

@@ -27,15 +27,7 @@ public class HomeScreen extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         binding = ActivityHomeScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        Intent data = new Intent();
-        String pfpstate = data.getStringExtra("pfpupdate");
-
-        if(pfpstate.isEmpty()){
-            replaceFragment(new HomeFragment()); // replaces Frame Layout with home fragment on startup
-        }else{
-            replaceFragment(new UserFragment()); // replaces Frame Layout with user profile fragment
-        }
-
+        replaceFragment(new HomeFragment());
 
         binding.bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override

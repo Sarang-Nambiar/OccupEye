@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="15dp"
     app:cardElevation="6dp"
+    android:theme="@style/Theme.Material3.Light.NoActionBar"
     app:cardUseCompatPadding="true">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -27,6 +28,15 @@
             android:text="Study Room"
             android:textStyle="bold"
             android:textSize="30dp"/>
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/baseline_bookmark_border_24"
+            app:iconGravity="end"
+            app:iconSize="25dp"
+            android:background="#00FFFFFF"
+            android:layout_alignParentEnd="true"
+            />
 
     </RelativeLayout>
 

@@ -192,7 +192,6 @@ public class EditPage extends AppCompatActivity {
                         }
                         Toast.makeText(EditPage.this, "Profile updated", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(EditPage.this, HomeScreen.class);
-                        i.putExtra("pfpupdate", "True");
                         startActivity(i);
                         finish();
                     }
