@@ -9,9 +9,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.occupeye.Adapters.SliderAdapter;
+import com.example.occupeye.Fragments.HomeFragment;
+import com.example.occupeye.HomeScreen;
+import com.example.occupeye.R;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
@@ -79,8 +81,6 @@ public class RoomPage extends AppCompatActivity {
 
         TextView mainText = findViewById(R.id.maintext);
         mainText.setText(title);
-        System.out.println(title);
-        Toast.makeText(this, title, Toast.LENGTH_SHORT).show();
 
         ImageView mainImage = findViewById(R.id.topimage);
         mainImage.setImageResource(contentList.get(0));
@@ -96,15 +96,42 @@ public class RoomPage extends AppCompatActivity {
         bookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (bookmark.getText().toString().equals("BOOKMARKED")) {
+                if(bookmark.getText().toString()=="BOOKMARKED"){
                     bookmark.setText("ADD TO BOOKMARKS");
-                } else {
+                }else{
                     bookmark.setText("BOOKMARKED");
                 }
             }
         });
+
+        ImageButton hostel = findViewById(R.id.imageButton1);
+        hostel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RoomPage.this, HomeScreen.class);
+                intent.putExtra("hostelselbtn",true);
+                startActivity(intent);
+            }
+        });
+
+        ImageButton lib = findViewById(R.id.imageButton2);
+        lib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RoomPage.this, HomeScreen.class);
+                intent.putExtra("libselbtn",true);
+                startActivity(intent);
+            }
+        });
+
+        sliderView = findViewById(R.id.imageSlider);
+        SliderAdapter sliderAdapter = new SliderAdapter(images, 200);
+
+        sliderView.setSliderAdapter(sliderAdapter);
+        sliderView.setIndicatorAnimation(IndicatorAnimationType.WORM);
+        sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+        sliderView.startAutoCycle();
+
+
     }
 }
-
-
-
