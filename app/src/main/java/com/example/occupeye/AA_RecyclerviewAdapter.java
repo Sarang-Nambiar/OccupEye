@@ -2,6 +2,7 @@ package com.example.occupeye;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +32,6 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
     public AA_RecyclerviewAdapter(Context context, ArrayList<CategoryCreatorModel> creatorModel) {
         this.context = context;
         this.creatorModel=creatorModel;
-
     }
 
     @NonNull
@@ -47,8 +47,8 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
     public void onBindViewHolder(@NonNull AA_RecyclerviewAdapter.MyViewHolder holder, int position) {
         holder.background.setImageResource(creatorModel.get(position).image);
         holder.roomName.setText(creatorModel.get(position).roomName);
-        holder.colour;
-        CategoryCreatorModel bookmarkPot=new CategoryCreatorModel(creatorModel.get(position).roomName,creatorModel.get(position).image);
+        holder.cardView.setCardBackgroundColor(Color.parseColor(creatorModel.get(position).colour));
+        CategoryCreatorModel bookmarkPot=new CategoryCreatorModel(creatorModel.get(position).roomName,creatorModel.get(position).image,creatorModel.get(position).colour);
         holder.bookmarkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,7 +89,7 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
 
 
             bookmarkButton=itemView.findViewById(R.id.buttonbookmark);
-            cardView = itemView.findViewById(R.id.cardholder);
+            cardView = itemView.findViewById(R.id.crowdColour);
 
         }
     }

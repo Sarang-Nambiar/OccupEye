@@ -76,7 +76,7 @@
                 android:layout_height="match_parent"
                 app:cardBackgroundColor="#C70039"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:layout_editor_absoluteY="0dp">
+                tools:layout_editor_absoluteY="75dp">
 
             </androidx.cardview.widget.CardView>
 

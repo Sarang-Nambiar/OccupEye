@@ -27,11 +27,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.protobuf.Value;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -226,11 +229,10 @@ public class HomeFragment extends Fragment{
         loginTester=rootView.findViewById(R.id.login);
 
         ArrayList<String> roomName = new ArrayList<>();
+        ArrayList<String> colours = new ArrayList<>();
         int[] imageno={R.drawable.hostel_img};
 
-        for (int i = 0; i < 5; i++) {
-            System.out.println(i);
-        }
+
         myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -238,13 +240,17 @@ public class HomeFragment extends Fragment{
                 if (task.isSuccessful()){
                     if(task.getResult().exists()){
                         DataSnapshot dataSnapshot = task.getResult();
-                        HashMap<String,String>data= (HashMap<String, String>) task.getResult().getValue();
+                        HashMap<String,HashMap<String,String>>data= (HashMap<String, HashMap<String,String>>) task.getResult().getValue();
+                        System.out.println(data);
                         for ( String key : data.keySet() ) {
                             Log.d("LOOK HERE", String.valueOf(key));
                             roomName.add(String.valueOf(key));
                         }
+                        for (HashMap value : data.values()) {
+                            colours.add((String) value.get("Colour Grading"));
+                        }
                         for(int i=0;i<roomName.size();i++){
-                            categoryModel.add(new CategoryCreatorModel(roomName.get(i),imageno[0],"green"));
+                            categoryModel.add(new CategoryCreatorModel(roomName.get(i),imageno[0],colours.get(i)));
                         }
                         setUpRecyclerView();
 
@@ -254,6 +260,16 @@ public class HomeFragment extends Fragment{
                 }
             }
         });
+    }
+
+    public static String getHexColor(String input) {
+        String hexColor = null;
+        Pattern pattern = Pattern.compile("#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})");
+        Matcher matcher = pattern.matcher(input);
+        if (matcher.find()) {
+            hexColor = matcher.group();
+        }
+        return hexColor;
     }
 
 }
