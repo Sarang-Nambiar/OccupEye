@@ -35,8 +35,6 @@ public class Register extends AppCompatActivity {
     Button block55;
     Button block57;
     Button block59;
-
-
     Button register;
     Button back;
     boolean block55_sel;

@@ -209,16 +209,31 @@ public class EditPage extends AppCompatActivity {
         progressDialog.setMessage("Please wait while we are updating your data");
         progressDialog.show();
         // uploading image to firebase storage
-        StorageReference fileRef = storageReference.child("Users/"+"admin"+"/profile.jpg");
-        fileRef.putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+        final StorageReference fileRef = storageReference.child("Users/"+"admin"+"/profile.jpg");
+
+        uploadTask = fileRef.putFile(imageUri);
+
+        uploadTask.continueWithTask(new Continuation() {
             @Override
-            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(EditPage.this, "Image uploaded", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(EditPage.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            public Object then(@NonNull Task task) throws Exception {
+                if(!task.isSuccessful()){
+                    throw task.getException();
                 }
-                progressDialog.dismiss();
+                return fileRef.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if(task.isSuccessful()){
+                    Uri downloadUri = task.getResult();
+                    HashMap<String, Object> userMap= new HashMap<>();
+                    userMap.put("image", downloadUri.toString());
+
+                    db.collection("Users").document("admin").update(userMap);
+                    if(progressDialog.isShowing()){
+                        progressDialog.dismiss();
+                    }
+                }
             }
         });
     }

@@ -1,6 +1,7 @@
 package com.example.occupeye;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.occupeye.Fragments.HomeFragment;
 
 import java.util.ArrayList;
 
@@ -53,8 +58,12 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
                     Bookmark.getBookmarkedLocs().add(bookmarkPot);
 
                 }
-
-
+            }
+        });
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context.startActivity(new Intent(context, RoomPage.class));
             }
         });
     }
@@ -68,6 +77,7 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
         ImageView background;
         TextView roomName;
         Button bookmarkButton;
+        CardView cardView;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -75,13 +85,13 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
             background=itemView.findViewById(R.id.background_layout);
 
             bookmarkButton=itemView.findViewById(R.id.buttonbookmark);
+            cardView = itemView.findViewById(R.id.cardholder);
 
         }
     }
 
     public interface OnItemClickListener {
         public void onItemClick(View view, int position);
-
         public void onLongItemClick(View view, int position);
     }
 }
