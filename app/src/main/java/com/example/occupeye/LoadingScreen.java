@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.occupeye.Adapters.SliderAdapter;
+import com.example.occupeye.Fragments.SearchFragment;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
@@ -25,7 +26,7 @@ public class LoadingScreen extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoadingScreen.this, Login.class);
+                Intent intent = new Intent(LoadingScreen.this, HomeScreen.class);
                 startActivity(intent);
             }
         });
