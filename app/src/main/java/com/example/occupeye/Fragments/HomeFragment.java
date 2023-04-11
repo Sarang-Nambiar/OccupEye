@@ -105,8 +105,7 @@ public class HomeFragment extends Fragment{
         Log.d("label", "msg1");
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        FirebaseDatabase database = FirebaseDatabase.getInstance("https://occupeye-dedb8-default-rtdb.asia-southeast1.firebasedatabase.app");
-        myRef = database.getReference("Locations");
+
 
 
         //INITIALISING DOM ELEMENTS
@@ -195,71 +194,66 @@ public class HomeFragment extends Fragment{
 
     private void setUpCategoryModel(String buttonName){
         Log.d("settingup","settingupmodels");
-
         if (buttonName=="all"){
-            roomName = new ArrayList<>();
-            ArrayList<Integer> imageno = new ArrayList<>();
-
-
-            categoryModel.clear();
-
-            for(int i=0;i<roomName.size();i++){
-                categoryModel.add(new CategoryCreatorModel(roomName.get(i),imageno.get(i)));
-            }
-            System.out.println(Bookmark.getBookmarkedLocs());
+            fetchData("all",true);
         } else if (buttonName=="hostel") {
-
-            Log.d("settingup2","settingupmodels2");
-            ArrayList<String> roomName = new ArrayList<>();
-            int[] imageno={R.drawable.hostel_img};
-            System.out.println(myRef);
-            myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DataSnapshot> task) {
-                    if (!task.isSuccessful()) {Toast.makeText(getContext(),"Unable to get data",Toast.LENGTH_SHORT).show();}
-                    if (task.isSuccessful()){
-                        Log.d("settingup3","settingupmodels3");
-                        if(task.getResult().exists()){
-                            DataSnapshot dataSnapshot = task.getResult();
-                            HashMap<String,String>data= (HashMap<String, String>) task.getResult().getValue();
-                            for ( String key : data.keySet() ) {
-                                Log.d("label3", String.valueOf(key));
-                                Log.d("label4", "msg4");
-                                roomName.add(String.valueOf(key));
-                            }
-                            for(int i=0;i<roomName.size();i++){
-                                categoryModel.add(new CategoryCreatorModel(roomName.get(i),imageno[0]));
-                            }
-                            setUpRecyclerView();
-
-                        }
-                    }else{
-                        Log.d("label6","myRef");
-                    }
-                }
-            });
-
-
-
+            fetchData("hostel", true);
         }else if (buttonName=="lib"){
-            categoryModel.clear();
-            String[] roomName={"SUTD LIBRARY"};
-            int[] imageno={R.drawable.lib_img};
-            for(int i=0;i<roomName.length;i++){
-                categoryModel.add(new CategoryCreatorModel(roomName[i],imageno[i]));
-            }
+            fetchData("lib", true);
         } else if (buttonName=="college") {
+            fetchData("college", true);
+        }
+    }
+
+    public void fetchData(String type, Boolean clear){
+        if (clear){
             categoryModel.clear();
-            String[] roomName={"SUTD LIBRARY","SUTD COLLEGE"};
-            int[] imageno={R.drawable.lib_img,R.drawable.college};
-
-            for(int i=0;i<roomName.length;i++){
-
-                categoryModel.add(new CategoryCreatorModel(roomName[i],imageno[i]));
-            }
-
+        }
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://occupeye-dedb8-default-rtdb.asia-southeast1.firebasedatabase.app");
+        myRef = database.getReference("Locations");
+        if (type=="lib"){
+            myRef = myRef.child("Library").child("Level 3");
+        } else if (type=="hostel") {
+            myRef = myRef.child("Hostel").child("Block 55");
+        } else if (type=="college"){
+            myRef = myRef.child("College").child("Building 2");
+        } else if (type=="all"){
+            fetchData("hostel", false);
+            fetchData("college", false);
+            fetchData("lib", false);
         }
 
+        loginTester=rootView.findViewById(R.id.login);
+
+        ArrayList<String> roomName = new ArrayList<>();
+        int[] imageno={R.drawable.hostel_img};
+
+        for (int i = 0; i < 5; i++) {
+            System.out.println(i);
+        }
+        myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {Toast.makeText(getContext(),"Unable to get data",Toast.LENGTH_SHORT).show();}
+                if (task.isSuccessful()){
+                    if(task.getResult().exists()){
+                        DataSnapshot dataSnapshot = task.getResult();
+                        HashMap<String,String>data= (HashMap<String, String>) task.getResult().getValue();
+                        for ( String key : data.keySet() ) {
+                            Log.d("LOOK HERE", String.valueOf(key));
+                            roomName.add(String.valueOf(key));
+                        }
+                        for(int i=0;i<roomName.size();i++){
+                            categoryModel.add(new CategoryCreatorModel(roomName.get(i),imageno[0],"green"));
+                        }
+                        setUpRecyclerView();
+
+                    }
+                }else{
+                    Log.d("label6","myRef");
+                }
+            }
+        });
     }
 
 }

@@ -71,6 +71,7 @@
                 app:layout_constraintVertical_bias="0.685" />
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/crowdColour"
                 android:layout_width="20sp"
                 android:layout_height="match_parent"
                 app:cardBackgroundColor="#C70039"

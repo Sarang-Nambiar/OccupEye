@@ -11,9 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.occupeye.Fragments.HomeFragment;
@@ -45,6 +47,7 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
     public void onBindViewHolder(@NonNull AA_RecyclerviewAdapter.MyViewHolder holder, int position) {
         holder.background.setImageResource(creatorModel.get(position).image);
         holder.roomName.setText(creatorModel.get(position).roomName);
+        holder.colour;
         CategoryCreatorModel bookmarkPot=new CategoryCreatorModel(creatorModel.get(position).roomName,creatorModel.get(position).image);
         holder.bookmarkButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +86,7 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
             super(itemView);
             roomName=itemView.findViewById(R.id.roomname);
             background=itemView.findViewById(R.id.background_layout);
+
 
             bookmarkButton=itemView.findViewById(R.id.buttonbookmark);
             cardView = itemView.findViewById(R.id.cardholder);
