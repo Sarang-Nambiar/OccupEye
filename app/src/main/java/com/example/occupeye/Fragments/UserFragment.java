@@ -22,8 +22,10 @@ import android.widget.TextView;
 
 import com.example.occupeye.Adapters.myRvAdapter;
 import com.example.occupeye.EditPage;
+import com.example.occupeye.Login;
 import com.example.occupeye.R;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -47,17 +49,13 @@ public class UserFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private RecyclerView rv;
-    private myRvAdapter myRvAdapter;
-    private ArrayList<String> dataSource;
-    LinearLayoutManager linearLayoutManager; // every recycler view needs this
-
     private StorageReference storageReference;
     private StorageReference profileStorage;
     private FirebaseFirestore fStore;
     private Button editprofilebtn;
     private TextView username, term, pillar, hostelBlock, hostelResident;
-
+    private FirebaseAuth mAuth;
+    private Button btnLogout;
     private View rootView;
 
     // TODO: Rename and change types of parameters
@@ -105,6 +103,7 @@ public class UserFragment extends Fragment {
 
          rootView = inflater.inflate(R.layout.fragment_user, container, false);
          fStore = FirebaseFirestore.getInstance();
+         mAuth = FirebaseAuth.getInstance();
          storageReference = FirebaseStorage.getInstance().getReference();
          profileStorage = storageReference.child("Users/"+"admin"+"/profile.jpg");
          editprofilebtn = rootView.findViewById(R.id.editprofilebtn);
@@ -114,17 +113,15 @@ public class UserFragment extends Fragment {
          term = rootView.findViewById(R.id.termtxt);
          hostelBlock = rootView.findViewById(R.id.blocktxt);
          hostelResident = rootView.findViewById(R.id.residenttxt);
-         rv = rootView.findViewById(R.id.bookmarksRv);
+         btnLogout = rootView.findViewById(R.id.logout);
 
-         dataSource = new ArrayList<>();
-         dataSource.add("Study room");
-         dataSource.add("Meeting room");
-         dataSource.add("Albert hong");
-         dataSource.add("bruh");
-         linearLayoutManager = new LinearLayoutManager(rootView.getContext(), LinearLayoutManager.HORIZONTAL, false);
-         myRvAdapter = new myRvAdapter(rootView.getContext(), dataSource);
-         rv.setLayoutManager(linearLayoutManager);
-         rv.setAdapter(myRvAdapter);
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth.signOut();
+                startActivity(new Intent(getActivity(), Login.class));
+            }
+        });
 
         profileStorage.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
