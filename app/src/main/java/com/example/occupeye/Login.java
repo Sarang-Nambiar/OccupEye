@@ -35,6 +35,7 @@ public class Login extends AppCompatActivity {
     Button signin;
     EditText username;
     EditText password;
+    FirebaseAuth fAuth;
 
     Button forgotpass;
     boolean password_status;
@@ -46,7 +47,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.login);
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://occupeye-dedb8-default-rtdb.asia-southeast1.firebasedatabase.app");
         DatabaseReference mRef=database.getReference().child("Users");
-
+        fAuth = FirebaseAuth.getInstance();
         //INITIALLIZING THE VARIABLES
         login=findViewById(R.id.loggin);
         signin=findViewById(R.id.signup);
@@ -102,7 +103,7 @@ public class Login extends AppCompatActivity {
 
                                 try {
 
-                                        FirebaseAuth.getInstance().signInWithEmailAndPassword(username.getText().toString(), password.getText().toString())
+                                        fAuth.signInWithEmailAndPassword(username.getText().toString(), password.getText().toString())
                                                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -111,7 +112,7 @@ public class Login extends AppCompatActivity {
 
                                                             // Update the password in Firestore
                                                             FirebaseFirestore db = FirebaseFirestore.getInstance();
-                                                            DocumentReference userRef = db.collection("Users").document(username.getText().toString());
+                                                            DocumentReference userRef = db.collection("Users").document(fAuth.getCurrentUser().getUid());
                                                             Intent intent = new Intent(Login.this, HomeScreen.class);
                                                             startActivity(intent);
 

@@ -16,6 +16,7 @@ import com.example.occupeye.HomeScreen;
 import com.example.occupeye.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
@@ -27,6 +28,7 @@ import java.util.Map;
 
 public class RoomPage extends AppCompatActivity {
     SliderView sliderView;
+    FirebaseFirestore fstore;
     int[] images = new int[3];
     private Map<String, List<Integer>> mContent = new HashMap<>();
 

@@ -20,6 +20,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <SearchView
+            android:id="@+id/searchView"
             android:layout_width="409dp"
             android:layout_height="67dp"
             app:background="@color/white"
