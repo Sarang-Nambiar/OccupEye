@@ -20,8 +20,8 @@ public class User {
         this.password=password;
         this.email=email;
     }
-    User(String username,String password){
-        this.username=username;
+    User(String email,String password){
+        this.email=email;
         this.password=password;
     }
     boolean password_checker(){
