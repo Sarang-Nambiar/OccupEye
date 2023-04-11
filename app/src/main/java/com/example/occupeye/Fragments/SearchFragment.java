@@ -1,20 +1,32 @@
 package com.example.occupeye.Fragments;
 
-import android.content.ClipData;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.widget.Toast;
 
+import com.example.occupeye.AA_RecyclerviewAdapter;
+import com.example.occupeye.Adapters.myRvAdapter;
+import com.example.occupeye.CategoryCreatorModel;
 import com.example.occupeye.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,8 +43,15 @@ public class SearchFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    FirebaseDatabase database;
+    DatabaseReference myRef;
 
     private SearchView searchView;
+    RecyclerView recyclerView;
+    LinearLayoutManager linearLayoutManager;
+    myRvAdapter bookmarkRvAdapter;
+    ArrayList<String> dataSource;
+    ArrayList<CategoryCreatorModel> categoryModel=new ArrayList<>();
 
     View rootView;
     public SearchFragment() {
@@ -63,6 +82,7 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -81,27 +101,106 @@ public class SearchFragment extends Fragment {
         System.out.println(cardLocations.length);
 
     }
+    public void setUpRecyclerView(){
+        //Setting up the recycler view
+        recyclerView=rootView.findViewById(R.id.myRecyclerView);
+
+        AA_RecyclerviewAdapter adapter=new AA_RecyclerviewAdapter(rootView.getContext(),categoryModel);
+        recyclerView.setAdapter(adapter);
+
+
+        LinearLayoutManager HorizontalLayout = new LinearLayoutManager(
+                rootView.getContext(),
+                LinearLayoutManager.VERTICAL,
+                false);
+        recyclerView.setLayoutManager(HorizontalLayout);
+    }
+    public void fetchData(String type, Boolean clear){
+
+        categoryModel.clear();
+        System.out.println(type);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://occupeye-dedb8-default-rtdb.asia-southeast1.firebasedatabase.app");
+        myRef = database.getReference("Locations");
+        if ("library".contains(type.toLowerCase(Locale.ROOT))){
+            System.out.println("Library");
+            myRef = myRef.child("Library").child("Level 3");
+
+
+        } else if ("hostel".contains(type.toLowerCase())) {
+            myRef = myRef.child("Hostel").child("Block 55");
+        } else if ("college".contains(type.toLowerCase(Locale.ROOT))){
+            myRef = myRef.child("College").child("Building 2");
+        }
+
+
+
+        ArrayList<String> roomName = new ArrayList<>();
+        ArrayList<String> colours = new ArrayList<>();
+        int[] imageno={R.drawable.hostel_img};
+        System.out.println(myRef);
+
+        myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {Toast.makeText(getContext(),"Unable to get data",Toast.LENGTH_SHORT).show();}
+                if (task.isSuccessful()){
+                    System.out.println("works??>");
+                    if(task.getResult().exists()){
+                        DataSnapshot dataSnapshot = task.getResult();
+                        HashMap<String,HashMap<String,String>>data= (HashMap<String, HashMap<String,String>>) task.getResult().getValue();
+                        System.out.println(data);
+                        for ( String key : data.keySet() ) {
+                            Log.d("LOOK HERE", String.valueOf(key));
+                            roomName.add(String.valueOf(key));
+                        }
+                        for (HashMap value : data.values()) {
+                            colours.add((String) value.get("Colour Grading"));
+                        }
+                        for(int i=0;i<roomName.size();i++){
+                            categoryModel.add(new CategoryCreatorModel(roomName.get(i),imageno[0],colours.get(i)));
+                        }
+                        System.out.println(categoryModel);
+                        setUpRecyclerView();
+
+                    }
+                }else{
+                    Log.d("label6","myRef");
+                }
+            }
+        });
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
+
         rootView = inflater.inflate(R.layout.fragment_search, container, false);
+
+
+        dataSource = new ArrayList<>();
+        dataSource.add("Study room");
+        dataSource.add("Meeting room");
+        dataSource.add("Albert hong");
+        dataSource.add("bruh");
+        linearLayoutManager = new LinearLayoutManager(rootView.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        bookmarkRvAdapter = new myRvAdapter(rootView.getContext(), dataSource);
+        // Inflate the layout for this fragment
+
         RecyclerView recyclerView = rootView.findViewById(R.id.mRecyclerView);
 
-        setUpCardsModels();
 
-        Card_Recycler_Adapter adapter = new Card_Recycler_Adapter(rootView.getContext(), cardModels);
 
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         searchView = rootView.findViewById(R.id.searchView);
         searchView.clearFocus();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                return false;
+
+              fetchData(s,true);
+              return true;
             }
 
             @Override
