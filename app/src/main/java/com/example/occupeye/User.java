@@ -46,7 +46,7 @@ public class User {
 
     boolean validate_login(){
 
-        if(username_checker()&&password_checker()){
+        if(email_checker()&&password_checker()){
 
             return true;}
         return false;
