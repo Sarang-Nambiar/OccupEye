@@ -119,8 +119,7 @@ public class Login extends AppCompatActivity {
                                                     @Override
                                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                                         if (task.isSuccessful()) {
-                                                            // Update the password in Realtime Database
-                                                            mRef.child(username.getText().toString()).child("password").setValue(password.getText().toString());
+
 
                                                             // Update the password in Firestore
                                                             FirebaseFirestore db = FirebaseFirestore.getInstance();
