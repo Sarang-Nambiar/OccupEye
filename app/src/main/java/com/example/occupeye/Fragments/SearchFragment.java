@@ -188,7 +188,7 @@ public class SearchFragment extends Fragment {
         dataSource.add("bruh");
         linearLayoutManager = new LinearLayoutManager(rootView.getContext(), LinearLayoutManager.HORIZONTAL, false);
         bookmarkRvAdapter = new myRvAdapter(rootView.getContext(), dataSource);
-        
+
         // Inflate the layout for this fragment
 
         RecyclerView recyclerView = rootView.findViewById(R.id.mRecyclerView);
