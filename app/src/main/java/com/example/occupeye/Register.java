@@ -17,6 +17,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.ContextCompat;
 
 
+import com.example.occupeye.Fragments.HomeFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -136,6 +137,7 @@ public class Register extends AppCompatActivity {
                                             public void onComplete(@NonNull Task<AuthResult> task) {
                                                 if (task.isSuccessful()) {
                                                     // Sign up success, update UI with the signed-in user's information
+                                                    Log.d("firebaseAuth", "onComplete done ");
                                                     Intent intent = new Intent(Register.this, HomeScreen.class);
                                                     startActivity(intent);
                                                 } else {
@@ -144,6 +146,7 @@ public class Register extends AppCompatActivity {
                                                 }
                                             }
                                         });
+
 
                             }
                         }
@@ -162,7 +165,7 @@ public class Register extends AppCompatActivity {
                     }if (!user.password_checker()) {
                         Toast.makeText(Register.this,"Password Cannot Have Space",Toast.LENGTH_SHORT).show();
                     }if(!user.email_checker()) {
-                        Toast.makeText(Register.this,"Email Needs @",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Register.this,"Email Needs @gmail.com at the end",Toast.LENGTH_SHORT).show();
                     }
                     if(!block_checker()){
                         Toast.makeText(Register.this,"Block Not Entered",Toast.LENGTH_SHORT).show();
