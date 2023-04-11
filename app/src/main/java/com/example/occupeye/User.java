@@ -12,7 +12,10 @@ public class User {
     private String password;
     private String username;
     private String email;
-    private String block;
+    private String block = "-";
+    private String pillar = "-";
+    private String term = "-";
+
     HashMap<String,String> obj=new HashMap<>();
 
     User(String username,String password,String email){
@@ -25,7 +28,6 @@ public class User {
         this.password=password;
     }
     boolean password_checker(){
-
         if (password.length()>7 && !password.contains(" "))return true;
         return false;
     }
@@ -55,11 +57,21 @@ public class User {
     public void setBlock(String block) {
         this.block = block;
     }
+    public void setPillar(String pillar){this.pillar = pillar;}
+    public void setTerm(String term){this.term = term;}
     public HashMap<String,String> database_obj(){
         obj.put("username",username);
         obj.put("password",password);
         obj.put("email",email);
-        obj.put("block",block);
+        if(this.block == "-"){
+            obj.put("block",block);
+            obj.put("Hostel Residency", "No");
+        }else{
+            obj.put("block", block);
+            obj.put("Hostel Residency", "Yes");
+        }
+        obj.put("Pillar", pillar);
+        obj.put("Term", term);
         return obj;
     }
 

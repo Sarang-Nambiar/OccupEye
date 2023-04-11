@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:id="@+id/roomidRv"
+            android:id="@+id/roompicRv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/splashscreenbg"
@@ -30,6 +30,7 @@
             android:textSize="30dp"/>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/bookmarkbtnRv"
             android:layout_width="50dp"
             android:layout_height="40dp"
             app:icon="@drawable/baseline_bookmark_24"

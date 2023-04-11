@@ -16,8 +16,9 @@
         android:textColor="#E3655B"
         android:textFontWeight="800"
         android:textSize="24sp"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
     </TextView>
 
@@ -29,15 +30,15 @@
         android:gravity="center"
         android:text="Sign into account"
         android:textColor="#E3655B"
-        app:layout_constraintTop_toTopOf="@+id/textView"
-        tools:layout_editor_absoluteX="0dp"
-        >
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView">
 
     </TextView>
 
 
     <EditText
-        android:hint="Username"
+        android:hint="Email"
         android:id="@+id/username"
         android:layout_width="400sp"
         android:layout_height="100sp"

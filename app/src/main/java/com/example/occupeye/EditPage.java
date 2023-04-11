@@ -33,6 +33,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -52,11 +53,13 @@ public class EditPage extends AppCompatActivity {
     StorageReference storageReference, profileRef;
     ImageView editpfp;
     Uri pfpUri;
+    FirebaseAuth fAuth;
     MaterialButton backbtn, savebtn;
     EditText username;
     AutoCompleteTextView autoCompleteterm, autoCompletepillar, autoCompleteblock, autoCompleteresident;
     ArrayAdapter<String> adapterItems1, adapterItems2, adapterItems3, adapterItems4;
     StorageTask uploadTask;
+    String userID;
     String term = "";
     String pillar = "";
     String block = "";
@@ -77,8 +80,10 @@ public class EditPage extends AppCompatActivity {
         Intent data = getIntent();
         String name = data.getStringExtra("username");
         db = FirebaseFirestore.getInstance();
+        fAuth = FirebaseAuth.getInstance();
+        userID = fAuth.getCurrentUser().getUid();
         storageReference = FirebaseStorage.getInstance().getReference();
-        profileRef = storageReference.child("Users/"+"admin"+"/profile.jpg");
+        profileRef = storageReference.child("Users/"+userID+"/profile.jpg");
 
         backbtn = findViewById(R.id.backbtn);
         editpfp = findViewById(R.id.edit_profile_image);
@@ -171,11 +176,11 @@ public class EditPage extends AppCompatActivity {
             public void onClick(View view) {
                 String Username = username.getText().toString();
                 Map<String, Object> user = new HashMap<>();
-                user.put("Name", Username);
-                user.put("Hostel Resident", resident);
+                user.put("username", Username);
+                user.put("Hostel Residency", resident);
                 user.put("Pillar", pillar);
                 user.put("Term", term);
-                user.put("Hostel Block", block);
+                user.put("block", block);
 
                 if(Username.isEmpty() || term.isEmpty() || pillar.isEmpty() || block.isEmpty() || resident.isEmpty()){
                     Toast.makeText(EditPage.this, "One or many of these fields are empty", Toast.LENGTH_SHORT).show();
@@ -183,7 +188,7 @@ public class EditPage extends AppCompatActivity {
                 }
 
                 //firestore storage part
-                DocumentReference docRef = db.collection("Users").document("admin");
+                DocumentReference docRef = db.collection("Users").document(userID);
                 docRef.update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -206,7 +211,7 @@ public class EditPage extends AppCompatActivity {
 
     private void uploadImageToFirebase(Uri imageUri) {
         // uploading image to firebase storage
-        final StorageReference fileRef = storageReference.child("Users/"+"admin"+"/profile.jpg");
+        final StorageReference fileRef = storageReference.child("Users/"+userID+"/profile.jpg");
 
         uploadTask = fileRef.putFile(imageUri);
 
@@ -223,10 +228,6 @@ public class EditPage extends AppCompatActivity {
             public void onComplete(@NonNull Task<Uri> task) {
                 if(task.isSuccessful()){
                     Uri downloadUri = task.getResult();
-                    HashMap<String, Object> userMap= new HashMap<>();
-                    userMap.put("image", downloadUri.toString());
-
-                    db.collection("Users").document("admin").update(userMap);
                     }
                 }
         });

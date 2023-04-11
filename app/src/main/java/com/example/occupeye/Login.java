@@ -101,9 +101,7 @@ public class Login extends AppCompatActivity {
 
                 if (user.validate_login()) {
 
-                                try {
-
-                                        fAuth.signInWithEmailAndPassword(username.getText().toString(), password.getText().toString())
+                                try {fAuth.signInWithEmailAndPassword(username.getText().toString(), password.getText().toString())
                                                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<AuthResult> task) {

@@ -24,10 +24,12 @@ import com.example.occupeye.RecyclerItemClickListener;
 import com.example.occupeye.RoomPage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.protobuf.Value;
 
 import java.util.ArrayList;
@@ -44,9 +46,9 @@ import java.util.regex.Pattern;
  */
 public class HomeFragment extends Fragment{
     View rootView;
-    Button loginTester;
-
-    Button registerTester;
+    FirebaseFirestore fStore;
+    FirebaseAuth fAuth;
+    String userID;
     ArrayList<CategoryCreatorModel> categoryModel=new ArrayList<>();
     View hostelselbtn;
     View allselbtn;
@@ -60,8 +62,6 @@ public class HomeFragment extends Fragment{
     myRvAdapter bookmarkRvAdapter;
     ArrayList<String> dataSource;
     LinearLayoutManager linearLayoutManager; // every recycler view needs this
-
-    FirebaseDatabase database;
     DatabaseReference myRef;
 
     HashMap<String,String> obj=new HashMap<>();
@@ -114,7 +114,9 @@ public class HomeFragment extends Fragment{
         Log.d("label", "msg1");
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
-
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+        userID = fAuth.getCurrentUser().getUid();
 
 
         //INITIALISING DOM ELEMENTS
@@ -124,16 +126,8 @@ public class HomeFragment extends Fragment{
         collegeselbtn=rootView.findViewById(R.id.category_sel_college);
         recyclerView = rootView.findViewById(R.id.myRecyclerView);
         bookmarkrv = rootView.findViewById(R.id.bookmarksRv);
-
-        dataSource = new ArrayList<>();
-        dataSource.add("Study room");
-        dataSource.add("Meeting room");
-        dataSource.add("Albert hong");
-        dataSource.add("bruh");
         linearLayoutManager = new LinearLayoutManager(rootView.getContext(), LinearLayoutManager.HORIZONTAL, false);
-        bookmarkRvAdapter = new myRvAdapter(rootView.getContext(), dataSource);
-        bookmarkrv.setLayoutManager(linearLayoutManager);
-        bookmarkrv.setAdapter(bookmarkRvAdapter);
+
         //SETTING UP DEFAULT DISPLAY ITEMS
         setUpCategoryModel("all");
         setUpRecyclerView();
@@ -176,20 +170,23 @@ public class HomeFragment extends Fragment{
             }
 
         });
-        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                CategoryCreatorModel selectedItem = categoryModel.get(position);
-                String selectedRoomName = selectedItem.getRoomName();
-                startActivity(new Intent(getActivity(), RoomPage.class)
-                        .putExtra("roomName", selectedRoomName));
-            }
-
-            @Override
-            public void onLongItemClick(View view, int position) {
-
-            }
-        }));
+        bookmarkRvAdapter = new myRvAdapter(rootView.getContext(), categoryModel);
+        bookmarkrv.setLayoutManager(linearLayoutManager);
+        bookmarkrv.setAdapter(bookmarkRvAdapter);
+//        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position) {
+//                CategoryCreatorModel selectedItem = categoryModel.get(position);
+//                String selectedRoomName = selectedItem.getRoomName();
+//                startActivity(new Intent(getActivity(), RoomPage.class)
+//                        .putExtra("roomName", selectedRoomName));
+//            }
+//
+//            @Override
+//            public void onLongItemClick(View view, int position) {
+//
+//            }
+//        }));
         return rootView;
     }
 

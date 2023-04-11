@@ -4,22 +4,27 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.occupeye.Bookmark;
+import com.example.occupeye.CategoryCreatorModel;
 import com.example.occupeye.Fragments.UserFragment;
 import com.example.occupeye.R;
 
 import java.util.ArrayList;
 
 public class myRvAdapter extends RecyclerView.Adapter<myRvAdapter.myHolder> {
-    ArrayList<String> data;
     Context context;
+    ArrayList<CategoryCreatorModel> creatorModel;
+    Bookmark bookmark=Bookmark.getBookmark();
 
-    public myRvAdapter(Context context, ArrayList<String> stringArrayList){
-        this.data = stringArrayList;
+    public myRvAdapter(Context context, ArrayList<CategoryCreatorModel> categoryCreatorModels){
+        this.creatorModel = categoryCreatorModels;
         this.context = context;
     }
     @NonNull
@@ -31,21 +36,31 @@ public class myRvAdapter extends RecyclerView.Adapter<myRvAdapter.myHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull myHolder holder, int position) {
-        holder.tvTitle.setText(data.get(position));
+        holder.tvTitle.setText(creatorModel.get(position).getRoomName());
+        holder.background.setImageResource(creatorModel.get(position).getImage());
+        CategoryCreatorModel bookmarkPot=new CategoryCreatorModel(creatorModel.get(position).getRoomName(),creatorModel.get(position).getImage(),creatorModel.get(position).getColour());
+        holder.bookmarkbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                creatorModel.remove(bookmarkPot);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return creatorModel.size();
     }
 
     public class myHolder extends RecyclerView.ViewHolder{
         TextView tvTitle;
+        ImageView background;
+        Button bookmarkbtn;
 
         public myHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.roomnameRv);
-
+            bookmarkbtn = itemView.findViewById(R.id.bookmarkbtnRv);
         }
     }
 

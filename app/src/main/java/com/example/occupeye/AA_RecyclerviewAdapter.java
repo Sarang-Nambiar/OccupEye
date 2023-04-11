@@ -59,15 +59,15 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
                 }else{
                     holder.bookmarkButton.setText("BOOKMARKED");
                     Bookmark.getBookmarkedLocs().add(bookmarkPot);
-
                 }
             }
         });
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+        holder.parentCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("CLICK");
-                context.startActivity(new Intent(context, RoomPage.class));
+                Intent intent = new Intent(context, RoomPage.class);
+                intent.putExtra("roomName", creatorModel.get(holder.getAdapterPosition()).roomName);
+                context.startActivity(intent);
             }
         });
     }
@@ -82,15 +82,15 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
         TextView roomName;
         Button bookmarkButton;
         CardView cardView;
+        CardView parentCard;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             roomName=itemView.findViewById(R.id.roomname);
             background=itemView.findViewById(R.id.background_layout);
-
-
             bookmarkButton=itemView.findViewById(R.id.buttonbookmark);
             cardView = itemView.findViewById(R.id.crowdColour);
+            parentCard = itemView.findViewById(R.id.cardholder);
 
         }
     }

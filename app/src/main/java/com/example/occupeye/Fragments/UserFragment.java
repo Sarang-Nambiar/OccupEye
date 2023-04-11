@@ -49,6 +49,7 @@ public class UserFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private String userID;
     private StorageReference storageReference;
     private StorageReference profileStorage;
     private FirebaseFirestore fStore;
@@ -105,7 +106,6 @@ public class UserFragment extends Fragment {
          fStore = FirebaseFirestore.getInstance();
          mAuth = FirebaseAuth.getInstance();
          storageReference = FirebaseStorage.getInstance().getReference();
-         profileStorage = storageReference.child("Users/"+"admin"+"/profile.jpg");
          editprofilebtn = rootView.findViewById(R.id.editprofilebtn);
          pfp = rootView.findViewById(R.id.profile_image);
          username = rootView.findViewById(R.id.nametxt);
@@ -114,6 +114,8 @@ public class UserFragment extends Fragment {
          hostelBlock = rootView.findViewById(R.id.blocktxt);
          hostelResident = rootView.findViewById(R.id.residenttxt);
          btnLogout = rootView.findViewById(R.id.logout);
+         userID = mAuth.getCurrentUser().getUid();
+         profileStorage = storageReference.child("Users/"+userID+"/profile.jpg");
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,16 +131,16 @@ public class UserFragment extends Fragment {
                 Picasso.get().load(uri).into(pfp);
             }
         });
-        DocumentReference documentReference = fStore.collection("Users").document("admin");
+        DocumentReference documentReference = fStore.collection("Users").document(userID);
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
                 if(documentSnapshot.exists()){
-                    username.setText(documentSnapshot.getString("Name"));
+                    username.setText(documentSnapshot.getString("username"));
                     pillar.setText(documentSnapshot.getString("Pillar"));
                     term.setText(documentSnapshot.getString("Term"));
-                    hostelBlock.setText(documentSnapshot.getString("Hostel Block"));
-                    hostelResident.setText(documentSnapshot.getString("Hostel Resident"));
+                    hostelBlock.setText(documentSnapshot.getString("block"));
+                    hostelResident.setText(documentSnapshot.getString("Hostel Residency"));
                 }
             }
         });

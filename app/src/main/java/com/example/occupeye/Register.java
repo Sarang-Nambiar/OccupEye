@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.occupeye.Fragments.HomeFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,6 +28,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -42,13 +44,14 @@ public class Register extends AppCompatActivity {
     boolean block57_sel;
     boolean block59_sel;
     FirebaseFirestore db;
+    FirebaseAuth fAuth;
     SwitchCompat hostel_toggle;
     EditText username;
     EditText email;
     EditText password;
     DatabaseReference myRef;
+    String userID;
 
-    FirebaseAuth firebaseAuth;
     private boolean block_checker(){
         if(block57_sel ||block59_sel ||block55_sel)return true;
         else if (!hostel_toggle.isChecked()) {return true;
@@ -68,6 +71,7 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.register);
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://occupeye-dedb8-default-rtdb.asia-southeast1.firebasedatabase.app");
         db=FirebaseFirestore.getInstance();
+        fAuth = FirebaseAuth.getInstance();
 
         block55_sel=false;
         block59_sel=false;
@@ -79,8 +83,6 @@ public class Register extends AppCompatActivity {
 
         register=findViewById(R.id.register_submit);
         back=findViewById(R.id.back);
-
-
         username=findViewById(R.id.username);
         email=findViewById(R.id.email);
         password=findViewById(R.id.password);
@@ -96,64 +98,64 @@ public class Register extends AppCompatActivity {
                 //password checker
                 //email checker
                 //block select
-                System.out.println(user.validate());
                 if(user.validate()&&block_checker()){
                     //TODO send data to firebase collection
-                    System.out.println("Check2");
                     user.setBlock(getActiveBlock());
-                    myRef = database.getReference("Users").child(username.getText().toString());
-                    boolean user_presnt;
-                    System.out.println(myRef);
-                    myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if(snapshot.exists()){
-                                Toast.makeText(Register.this,"Username Already In Use",Toast.LENGTH_SHORT).show();
-                            }
-                            else {
-                                System.out.println("CHEKC2");
-                                myRef.setValue(user.database_obj());
-                                db.collection("Users").document(username.getText().toString()).set(user.database_obj());
-                                //Log database stored
-
-                                myRef.addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        String value = String.valueOf(snapshot.getValue());
-                                        Log.d("FirebaseElement", "Value is: " + value);
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-                                        Log.w("FirebaseElement", "Failed to read value.", error.toException());
-                                    }
-                                });
-                                firebaseAuth = FirebaseAuth.getInstance();
-                                firebaseAuth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword())
-                                        .addOnCompleteListener(Register.this, new OnCompleteListener<AuthResult>() {
+                    fAuth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword())
+                            .addOnCompleteListener(Register.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        // Sign up success, update UI with the signed-in user's information
+                                        Log.d("firebaseAuth", "onComplete done ");
+                                        userID = fAuth.getCurrentUser().getUid();
+                                        DocumentReference documentReference = db.collection("Users").document(userID);
+                                        documentReference.set(user.database_obj()).addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
-                                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                                if (task.isSuccessful()) {
-                                                    // Sign up success, update UI with the signed-in user's information
-                                                    Log.d("firebaseAuth", "onComplete done ");
-                                                    Intent intent = new Intent(Register.this, HomeScreen.class);
-                                                    startActivity(intent);
-                                                } else {
-                                                    // If sign up fails, display a message to the user.
-                                                    Toast.makeText(Register.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                                                }
+                                            public void onSuccess(Void unused) {
+                                                Toast.makeText(Register.this, "Successfully Registered", Toast.LENGTH_SHORT).show();
                                             }
                                         });
-
-
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
+                                        Intent intent = new Intent(Register.this, Login.class);
+                                        startActivity(intent);
+                                    } else {
+                                        // If sign up fails, display a message to the user.
+                                        Toast.makeText(Register.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+//                    myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                            if(snapshot.exists()){
+//                                Toast.makeText(Register.this,"Username Already In Use",Toast.LENGTH_SHORT).show();
+//                            }
+//                            else {
+//                                myRef.setValue(user.database_obj());
+//                                db.collection("Users").document(username.getText().toString()).set(user.database_obj());
+//                                //Log database stored
+//
+//                                myRef.addValueEventListener(new ValueEventListener() {
+//                                    @Override
+//                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                        String value = String.valueOf(snapshot.getValue());
+//                                        Log.d("FirebaseElement", "Value is: " + value);
+//                                    }
+//
+//                                    @Override
+//                                    public void onCancelled(@NonNull DatabaseError error) {
+//                                        Log.w("FirebaseElement", "Failed to read value.", error.toException());
+//                                    }
+//                                });
+//
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError error) {
+//
+//                        }
+//                    });
 
 
                 }else {
