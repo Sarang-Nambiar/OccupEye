@@ -26,10 +26,10 @@ import java.util.ArrayList;
 public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_RecyclerviewAdapter.MyViewHolder> {
     Context context;
     ArrayList<CategoryCreatorModel> creatorModel;
-    Bookmark bookmark=Bookmark.getBookmark();
+    Bookmark bookmark;
 
 
-    public AA_RecyclerviewAdapter(Context context, ArrayList<CategoryCreatorModel> creatorModel) {
+    public AA_RecyclerviewAdapter(Context context, ArrayList<CategoryCreatorModel> creatorModel, Bookmark bookmark) {
         this.context = context;
         this.creatorModel=creatorModel;
     }
@@ -91,12 +91,15 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
             bookmarkButton=itemView.findViewById(R.id.buttonbookmark);
             cardView = itemView.findViewById(R.id.crowdColour);
             parentCard = itemView.findViewById(R.id.cardholder);
-
         }
     }
 
     public interface OnItemClickListener {
         public void onItemClick(View view, int position);
         public void onLongItemClick(View view, int position);
+    }
+
+    public Bookmark bookmark(){
+        return this.bookmark;
     }
 }

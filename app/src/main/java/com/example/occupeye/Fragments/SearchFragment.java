@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.occupeye.AA_RecyclerviewAdapter;
 import com.example.occupeye.Adapters.myRvAdapter;
+import com.example.occupeye.Bookmark;
 import com.example.occupeye.CategoryCreatorModel;
 import com.example.occupeye.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -106,7 +107,7 @@ public class SearchFragment extends Fragment {
         //Setting up the recycler view
         recyclerView=rootView.findViewById(R.id.mRecyclerView);
 
-        AA_RecyclerviewAdapter adapter=new AA_RecyclerviewAdapter(rootView.getContext(),categoryModel);
+        AA_RecyclerviewAdapter adapter=new AA_RecyclerviewAdapter(rootView.getContext(),categoryModel, Bookmark.getBookmark());
         recyclerView.setAdapter(adapter);
 
 

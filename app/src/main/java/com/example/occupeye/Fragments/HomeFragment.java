@@ -170,7 +170,7 @@ public class HomeFragment extends Fragment{
             }
 
         });
-        bookmarkRvAdapter = new myRvAdapter(rootView.getContext(), categoryModel);
+        bookmarkRvAdapter = new myRvAdapter(rootView.getContext(), categoryModel, bookmark);
         bookmarkrv.setLayoutManager(linearLayoutManager);
         bookmarkrv.setAdapter(bookmarkRvAdapter);
 //        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
@@ -193,7 +193,7 @@ public class HomeFragment extends Fragment{
     public void setUpRecyclerView(){
         //Setting up the recycler view
         recyclerView=rootView.findViewById(R.id.myRecyclerView);
-        AA_RecyclerviewAdapter adapter=new AA_RecyclerviewAdapter(rootView.getContext(),categoryModel);
+        AA_RecyclerviewAdapter adapter=new AA_RecyclerviewAdapter(rootView.getContext(),categoryModel, bookmark);
         recyclerView.setAdapter(adapter);
 
 

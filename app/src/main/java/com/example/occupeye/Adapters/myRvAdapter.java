@@ -21,11 +21,12 @@ import java.util.ArrayList;
 public class myRvAdapter extends RecyclerView.Adapter<myRvAdapter.myHolder> {
     Context context;
     ArrayList<CategoryCreatorModel> creatorModel;
-    Bookmark bookmark=Bookmark.getBookmark();
+    Bookmark bookmark;
 
-    public myRvAdapter(Context context, ArrayList<CategoryCreatorModel> categoryCreatorModels){
+    public myRvAdapter(Context context, ArrayList<CategoryCreatorModel> categoryCreatorModels, Bookmark bookmark){
         this.creatorModel = categoryCreatorModels;
         this.context = context;
+        this.bookmark = bookmark;
     }
     @NonNull
     @Override
@@ -42,7 +43,8 @@ public class myRvAdapter extends RecyclerView.Adapter<myRvAdapter.myHolder> {
         holder.bookmarkbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                creatorModel.remove(bookmarkPot);
+                System.out.println(Bookmark.getBookmarkedLocs());
+                Bookmark.getBookmarkedLocs().remove(bookmarkPot);
             }
         });
     }
@@ -62,6 +64,10 @@ public class myRvAdapter extends RecyclerView.Adapter<myRvAdapter.myHolder> {
             tvTitle = itemView.findViewById(R.id.roomnameRv);
             bookmarkbtn = itemView.findViewById(R.id.bookmarkbtnRv);
         }
+    }
+
+    public Bookmark getBookmark(){
+        return bookmark;
     }
 
 }
