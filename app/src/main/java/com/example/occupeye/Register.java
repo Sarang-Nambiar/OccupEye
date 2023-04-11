@@ -162,8 +162,6 @@ public class Register extends AppCompatActivity {
                         Toast.makeText(Register.this,"Username Cannot Have Space",Toast.LENGTH_SHORT).show();
                     }if (!user.password_checker()) {
                         Toast.makeText(Register.this,"Password Cannot Have Space",Toast.LENGTH_SHORT).show();
-                    }if(!user.email_checker()) {
-                        Toast.makeText(Register.this,"Email Needs @gmail.com at the end",Toast.LENGTH_SHORT).show();
                     }
                     if(!block_checker()){
                         Toast.makeText(Register.this,"Block Not Entered",Toast.LENGTH_SHORT).show();

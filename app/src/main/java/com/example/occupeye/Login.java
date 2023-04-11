@@ -112,23 +112,8 @@ public class Login extends AppCompatActivity {
                                                             // Update the password in Firestore
                                                             FirebaseFirestore db = FirebaseFirestore.getInstance();
                                                             DocumentReference userRef = db.collection("Users").document(username.getText().toString());
-                                                            Map<String, Object> updates = new HashMap<>();
-                                                            updates.put("password", password.getText().toString());
-                                                            userRef.update(updates)
-                                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                        @Override
-                                                                        public void onSuccess(Void aVoid) {
-                                                                            Intent intent = new Intent(Login.this, HomeScreen.class);
-                                                                            startActivity(intent);
-                                                                        }
-                                                                    })
-                                                                    .addOnFailureListener(new OnFailureListener() {
-                                                                        @Override
-                                                                        public void onFailure(@NonNull Exception e) {
-                                                                            Toast.makeText(Login.this, "Password update failed", Toast.LENGTH_SHORT).show();
-                                                                        }
-                                                                    });
-
+                                                            Intent intent = new Intent(Login.this, HomeScreen.class);
+                                                            startActivity(intent);
 
                                                         } else {
                                                             Toast.makeText(Login.this, "Invalid Username/Password", Toast.LENGTH_SHORT).show();
