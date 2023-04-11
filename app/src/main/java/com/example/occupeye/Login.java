@@ -99,19 +99,10 @@ public class Login extends AppCompatActivity {
                 User user = new User(username.getText().toString(), password.getText().toString());
 
                 if (user.validate_login()) {
-                    mRef.child(username.getText().toString()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DataSnapshot> task) {
-                            if (!task.isSuccessful()) {
-                                Log.e("firebase", "Error getting data", task.getException());
-                                Toast.makeText(Login.this, "User not registered", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Log.d("firebase", "connected");
 
-                                HashMap<String, String> data = (HashMap<String, String>) task.getResult().getValue();
                                 try {
 
-                                        FirebaseAuth.getInstance().signInWithEmailAndPassword(data.get("email"), password.getText().toString())
+                                        FirebaseAuth.getInstance().signInWithEmailAndPassword(username.getText().toString(), password.getText().toString())
                                                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -149,9 +140,7 @@ public class Login extends AppCompatActivity {
                                     Toast.makeText(Login.this, "User not registered", Toast.LENGTH_SHORT).show();
                                 }
 
-                            }
-                        }
-                    });
+
 
                 } else {
                     Toast.makeText(Login.this, "Invalid Entries", Toast.LENGTH_SHORT).show();

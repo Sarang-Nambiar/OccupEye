@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.occupeye.AA_RecyclerviewAdapter;
+import com.example.occupeye.Adapters.myRvAdapter;
 import com.example.occupeye.Bookmark;
 import com.example.occupeye.CategoryCreatorModel;
 import com.example.occupeye.R;
@@ -54,6 +55,11 @@ public class HomeFragment extends Fragment{
     RecyclerView recyclerView;
     ArrayList<String> roomName;
     Bookmark bookmark=Bookmark.getBookmark();
+
+    RecyclerView bookmarkrv;
+    myRvAdapter bookmarkRvAdapter;
+    ArrayList<String> dataSource;
+    LinearLayoutManager linearLayoutManager; // every recycler view needs this
 
     FirebaseDatabase database;
     DatabaseReference myRef;
@@ -118,6 +124,17 @@ public class HomeFragment extends Fragment{
         libselbtn=rootView.findViewById(R.id.category_sel_lib);
         collegeselbtn=rootView.findViewById(R.id.category_sel_college);
         recyclerView = rootView.findViewById(R.id.myRecyclerView);
+        bookmarkrv = rootView.findViewById(R.id.bookmarksRv);
+
+        dataSource = new ArrayList<>();
+        dataSource.add("Study room");
+        dataSource.add("Meeting room");
+        dataSource.add("Albert hong");
+        dataSource.add("bruh");
+        linearLayoutManager = new LinearLayoutManager(rootView.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        bookmarkRvAdapter = new myRvAdapter(rootView.getContext(), dataSource);
+        bookmarkrv.setLayoutManager(linearLayoutManager);
+        bookmarkrv.setAdapter(bookmarkRvAdapter);
         //SETTING UP DEFAULT DISPLAY ITEMS
         setUpCategoryModel("all");
         setUpRecyclerView();
@@ -129,10 +146,6 @@ public class HomeFragment extends Fragment{
 
                 Log.d("HOSTELSEL", "HOSTEL ROOMS ONLY");
                 setUpCategoryModel("hostel");
-
-
-
-
 
 
                 Log.d("label2","msg2");
