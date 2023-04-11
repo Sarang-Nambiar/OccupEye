@@ -191,7 +191,9 @@ public class EditPage extends AppCompatActivity {
                             uploadImageToFirebase(pfpUri);
                         }
                         Toast.makeText(EditPage.this, "Profile updated", Toast.LENGTH_SHORT).show();
-                        onBackPressed();
+                        Intent i = new Intent(EditPage.this, HomeScreen.class);
+                        i.putExtra("pfpupdate", "True");
+                        startActivity(i);
                         finish();
                     }
                 });
@@ -204,10 +206,6 @@ public class EditPage extends AppCompatActivity {
     }
 
     private void uploadImageToFirebase(Uri imageUri) {
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Uploading....");
-        progressDialog.setMessage("Please wait while we are updating your data");
-        progressDialog.show();
         // uploading image to firebase storage
         final StorageReference fileRef = storageReference.child("Users/"+"admin"+"/profile.jpg");
 
@@ -215,7 +213,7 @@ public class EditPage extends AppCompatActivity {
 
         uploadTask.continueWithTask(new Continuation() {
             @Override
-            public Object then(@NonNull Task task) throws Exception {
+            public Object then(@NonNull Task task) throws Exception{
                 if(!task.isSuccessful()){
                     throw task.getException();
                 }
@@ -230,11 +228,8 @@ public class EditPage extends AppCompatActivity {
                     userMap.put("image", downloadUri.toString());
 
                     db.collection("Users").document("admin").update(userMap);
-                    if(progressDialog.isShowing()){
-                        progressDialog.dismiss();
                     }
                 }
-            }
         });
     }
 }

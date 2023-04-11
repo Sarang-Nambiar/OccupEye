@@ -30,7 +30,7 @@ public class User {
         return false;
     }
     boolean email_checker(){
-        if (!email.contains(" ") && email.contains("@gmail.com")&& email.length()>9)return true;
+        if (!email.contains(" ") && email.contains("@gmail.com")&& email.length()>10)return true;
         return false;
     }
     boolean username_checker(){
