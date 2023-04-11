@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -187,6 +188,7 @@ public class SearchFragment extends Fragment {
         dataSource.add("bruh");
         linearLayoutManager = new LinearLayoutManager(rootView.getContext(), LinearLayoutManager.HORIZONTAL, false);
         bookmarkRvAdapter = new myRvAdapter(rootView.getContext(), dataSource);
+        
         // Inflate the layout for this fragment
 
         RecyclerView recyclerView = rootView.findViewById(R.id.mRecyclerView);
