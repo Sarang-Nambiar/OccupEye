@@ -110,10 +110,7 @@ public class Login extends AppCompatActivity {
 
                                 HashMap<String, String> data = (HashMap<String, String>) task.getResult().getValue();
                                 try {
-                                    if (password.getText().toString().equals(data.get("password"))) {
-                                        Intent intent = new Intent(Login.this, HomeScreen.class);
-                                        startActivity(intent);
-                                    } else {
+
                                         FirebaseAuth.getInstance().signInWithEmailAndPassword(data.get("email"), password.getText().toString())
                                                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                                     @Override
@@ -147,7 +144,7 @@ public class Login extends AppCompatActivity {
                                                         }
                                                     }
                                                 });
-                                    }
+
                                 } catch (Exception e) {
                                     Toast.makeText(Login.this, "User not registered", Toast.LENGTH_SHORT).show();
                                 }
