@@ -1,51 +1,60 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<LinearLayout
+    android:orientation="vertical"
+    android:background="@color/homescreenbg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.ExploreFragment">
+    tools:context=".RoomPage">
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
+    <ImageView
+        android:id="@+id/topimage"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:scaleType="fitXY"
+        android:layout_marginTop="0dp"
+        android:src="@drawable/kitchenbg" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/homescreenbg">
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/homescreenbg"
+        android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/topimage"
-            android:layout_width="match_parent"
-            android:layout_height="267dp"
-            android:src="@drawable/kitchenbg" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/maintext"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/roundstyle"
-            android:backgroundTint="@color/homescreenbg"
-            android:layout_marginTop="200dp">
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="0dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/montagubold"
+            android:text="Kitchen"
+            android:textAlignment="textStart"
+            android:textColor="@color/iconhover"
+            android:textSize="24sp"
+            tools:ignore="RtlCompat" />
 
-            <!-- Your views and nested LinearLayouts go here -->
+        <Button
+            android:id="@+id/buttonbookmark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:backgroundTint="#E3655B"
+            android:layout_marginRight="10dp"
+            android:text="Add to Bookmarks"
+            android:textSize="12dp" />
 
-            <!-- maintext TextView -->
-            <TextView
-                android:id="@+id/maintext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/montagubold"
-                android:text="SUTD Kitchen BLK 57"
-                android:textAlignment="textStart"
-                android:textColor="@color/iconhover"
-                android:textSize="20sp" />
+    </LinearLayout>
 
-            <!-- crowdtext TextView and crowdindicator ImageView -->
+    <!-- crowdtext TextView and crowdindicator ImageView -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -56,7 +65,6 @@
                     android:id="@+id/crowdtext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="20dp"
                     android:text="Crowd"
@@ -69,7 +77,6 @@
                     android:id="@+id/crowdindicator"
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:src="@drawable/circle" />
             </LinearLayout>
@@ -87,31 +94,19 @@
                 android:textColor="@color/black"
                 android:textAlignment="textStart" />
 
-            <TextView
-                android:id="@+id/desc1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="10dp"
-                android:text="A kitchen is a room in a home or building used for cooking and food preparation. It typically contains a variety of appliances, tools, and cabinets for storing food, dishes, and cooking utensils. Some common kitchen appliances include a refrigerator, oven, stove, dishwasher, and microwave. Kitchens often have countertops for food preparation and sink areas for washing dishes and produce."
-                android:fontFamily="@font/montaguregular"
-                android:textSize="13.5sp"
-                android:textColor="@color/black"
-                android:textAlignment="textStart" />
+    <TextView
+        android:id="@+id/desc1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
+        android:fontFamily="@font/montaguregular"
+        android:text="A kitchen is a room in a home or building used for cooking and food preparation. It typically contains a variety of appliances, tools, and cabinets for storing food, dishes, and cooking utensils. Some common kitchen appliances include a refrigerator, oven, stove, dishwasher, and microwave. Kitchens often have countertops for food preparation and sink areas for washing dishes and produce."
+        android:textAlignment="textStart"
+        android:textColor="@color/black"
+        android:textSize="13.5sp" />
 
-            <TextView
-                android:id="@+id/desc2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="10dp"
-                android:text="In addition, they may have a kitchen table or an island with seating for eating and entertaining. The design of a kitchen can range from simple and functional to luxurious and high-end, depending on personal style and budget."
-                android:fontFamily="@font/montaguregular"
-                android:textSize="13.5sp"
-                android:textColor="@color/black"
-                android:textAlignment="textStart" />
-
-            <TextView
+    <TextView
                 android:id="@+id/relatedtext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -143,13 +138,13 @@
 
                 <ImageButton
                     android:id="@+id/imageButton2"
-                    android:contentDescription="Kitchen"
-                    android:layout_height="50dp"
                     android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
                     android:background="@drawable/circlebutton"
+                    android:contentDescription="Library"
                     android:gravity="center_vertical|center_horizontal"
-                    android:src="@drawable/kitchenbutton"
-                    android:layout_marginLeft="20dp"/>
+                    android:src="@drawable/libbutton" />
 
             </LinearLayout>
 
@@ -173,131 +168,11 @@
                     android:id="@+id/kitchentext"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:text="Kitchen"
+                    android:text="Library"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montagulight"
                     android:textSize="13sp"
                     android:layout_marginLeft="20dp"/>
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/reviewstext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="20dp"
-                android:text="Reviews"
-                android:fontFamily="@font/montagusemi"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                android:textAlignment="textStart" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:backgroundTint="@color/homescreenbg">
-
-                <ImageView
-                    android:id="@+id/star1"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:src="@drawable/star"
-                    android:layout_marginLeft="20dp"/>
-
-                <ImageView
-                    android:id="@+id/star2"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:src="@drawable/star" />
-
-                <ImageView
-                    android:id="@+id/star3"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:src="@drawable/star" />
-
-                <ImageView
-                    android:id="@+id/star4"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:src="@drawable/star" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:background="@drawable/roundstyle"
-                android:backgroundTint="@color/darkgrey"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Sarang"
-                    android:fontFamily="@font/montagusemi"
-                    android:textSize="14sp"
-                    android:textColor="@color/white"
-                    android:textAlignment="textStart" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="20dp"
-                    android:text="Quiet and not too crowded. Very fun to cook. Modern kitchen with cool aesthetic!"
-                    android:layout_marginRight="20dp"
-                    android:fontFamily="@font/montaguregular"
-                    android:textSize="14sp"
-                    android:textColor="@color/white"
-                    android:textAlignment="textStart" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@color/darkgrey"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp">
-
-                    <ImageView
-                        android:id="@+id/ratingstar1"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:src="@drawable/star"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginLeft="20dp"/>
-
-                    <ImageView
-                        android:id="@+id/ratingstar2"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:src="@drawable/star"
-                        android:layout_marginTop="5dp" />
-
-                    <ImageView
-                        android:id="@+id/ratingstar3"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:src="@drawable/star"
-                        android:layout_marginTop="5dp" />
-
-                    <ImageView
-                        android:id="@+id/ratingstar4"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:src="@drawable/star"
-                        android:layout_marginTop="5dp" />
-
-                </LinearLayout>
 
             </LinearLayout>
 
@@ -336,9 +211,10 @@
                 app:sliderIndicatorUnselectedColor="@color/iconhoverlight"
                 app:sliderScrollTimeInSec="4"
                 app:sliderStartAutoCycle="true"/>
-        </LinearLayout>
-    </RelativeLayout>
+
+</LinearLayout>
 </ScrollView>
-</FrameLayout>
+
+
 
 

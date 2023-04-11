@@ -162,17 +162,20 @@ public class HomeFragment extends Fragment{
             }
 
         });
-//        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, int position) {
-//                startActivity(new Intent(getActivity(), RoomPage.class));
-//            }
-//
-//            @Override
-//            public void onLongItemClick(View view, int position) {
-//
-//            }
-//        }));
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                CategoryCreatorModel selectedItem = categoryModel.get(position);
+                String selectedRoomName = selectedItem.getRoomName();
+                startActivity(new Intent(getActivity(), RoomPage.class)
+                        .putExtra("roomName", selectedRoomName));
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+
+            }
+        }));
         return rootView;
     }
 
