@@ -12,7 +12,7 @@
         android:layout_height="175dp"
         android:layout_marginTop="16dp"
         android:padding="0sp"
-        app:cardBackgroundColor="#A636453B"
+        app:cardBackgroundColor="#36453B"
         app:cardCornerRadius="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
