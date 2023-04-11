@@ -19,6 +19,7 @@
             android:layout_marginTop="20sp"
             android:fontFamily="serif-monospace"
             android:text="OccupEYE"
+            android:textStyle="bold"
             android:textColor="#E3655B"
             android:textFontWeight="800"
             android:textSize="24sp"
