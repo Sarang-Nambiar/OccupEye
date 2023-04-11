@@ -66,6 +66,7 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                System.out.println("CLICK");
                 context.startActivity(new Intent(context, RoomPage.class));
             }
         });
