@@ -180,14 +180,7 @@ public class SearchFragment extends Fragment {
 
         rootView = inflater.inflate(R.layout.fragment_search, container, false);
 
-
-        dataSource = new ArrayList<>();
-        dataSource.add("Study room");
-        dataSource.add("Meeting room");
-        dataSource.add("Albert hong");
-        dataSource.add("bruh");
         linearLayoutManager = new LinearLayoutManager(rootView.getContext(), LinearLayoutManager.HORIZONTAL, false);
-        bookmarkRvAdapter = new myRvAdapter(rootView.getContext(), dataSource);
 
         // Inflate the layout for this fragment
 
