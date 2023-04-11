@@ -103,7 +103,7 @@ public class SearchFragment extends Fragment {
     }
     public void setUpRecyclerView(){
         //Setting up the recycler view
-        recyclerView=rootView.findViewById(R.id.myRecyclerView);
+        recyclerView=rootView.findViewById(R.id.mRecyclerView);
 
         AA_RecyclerviewAdapter adapter=new AA_RecyclerviewAdapter(rootView.getContext(),categoryModel);
         recyclerView.setAdapter(adapter);
@@ -128,6 +128,7 @@ public class SearchFragment extends Fragment {
 
 
         } else if ("hostel".contains(type.toLowerCase())) {
+            System.out.println("Hostel");
             myRef = myRef.child("Hostel").child("Block 55");
         } else if ("college".contains(type.toLowerCase(Locale.ROOT))){
             myRef = myRef.child("College").child("Building 2");
@@ -160,7 +161,7 @@ public class SearchFragment extends Fragment {
                         for(int i=0;i<roomName.size();i++){
                             categoryModel.add(new CategoryCreatorModel(roomName.get(i),imageno[0],colours.get(i)));
                         }
-                        System.out.println(categoryModel);
+                        System.out.println(colours);
                         setUpRecyclerView();
 
                     }
