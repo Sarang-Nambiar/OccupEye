@@ -1,6 +1,7 @@
 package com.example.occupeye;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -100,6 +101,8 @@ public class Login extends AppCompatActivity {
                 User user = new User(username.getText().toString(), password.getText().toString());
 
                 if (user.validate_login()) {
+                    ProgressDialog progressDialog = new ProgressDialog(getApplicationContext());
+                    progressDialog.setTitle("Loading....");
 
                                 try {fAuth.signInWithEmailAndPassword(username.getText().toString(), password.getText().toString())
                                                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -113,13 +116,13 @@ public class Login extends AppCompatActivity {
                                                             DocumentReference userRef = db.collection("Users").document(fAuth.getCurrentUser().getUid());
                                                             Intent intent = new Intent(Login.this, HomeScreen.class);
                                                             startActivity(intent);
-
+                                                            finish();
                                                         } else {
                                                             Toast.makeText(Login.this, "Invalid Username/Password", Toast.LENGTH_SHORT).show();
                                                         }
+                                                        progressDialog.dismiss();
                                                     }
                                                 });
-
                                 } catch (Exception e) {
                                     Toast.makeText(Login.this, "User not registered", Toast.LENGTH_SHORT).show();
                                 }

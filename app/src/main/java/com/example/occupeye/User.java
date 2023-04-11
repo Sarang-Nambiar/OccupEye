@@ -64,12 +64,11 @@ public class User {
         obj.put("password",password);
         obj.put("email",email);
         if(this.block == "-"){
-            obj.put("block",block);
             obj.put("Hostel Residency", "No");
         }else{
-            obj.put("block", block);
             obj.put("Hostel Residency", "Yes");
         }
+        obj.put("block", block);
         obj.put("Pillar", pillar);
         obj.put("Term", term);
         return obj;

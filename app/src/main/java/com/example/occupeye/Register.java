@@ -1,6 +1,7 @@
 package com.example.occupeye;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -99,6 +101,8 @@ public class Register extends AppCompatActivity {
                 //email checker
                 //block select
                 if(user.validate()&&block_checker()){
+                    ProgressDialog progressDialog = new ProgressDialog(getApplicationContext());
+                    progressDialog.setTitle("Loading...");
                     //TODO send data to firebase collection
                     user.setBlock(getActiveBlock());
                     fAuth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword())
@@ -114,6 +118,7 @@ public class Register extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(Void unused) {
                                                 Toast.makeText(Register.this, "Successfully Registered", Toast.LENGTH_SHORT).show();
+                                                progressDialog.dismiss();
                                             }
                                         });
                                         Intent intent = new Intent(Register.this, Login.class);
@@ -121,6 +126,7 @@ public class Register extends AppCompatActivity {
                                     } else {
                                         // If sign up fails, display a message to the user.
                                         Toast.makeText(Register.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                                        progressDialog.dismiss();
                                     }
                                 }
                             });
