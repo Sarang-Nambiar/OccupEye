@@ -1,8 +1,11 @@
 package com.example.occupeye;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -123,6 +126,12 @@ public class RoomPage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        ImageView imageView = findViewById(R.id.crowdindicator);
+        GradientDrawable drawable = (GradientDrawable) ContextCompat.getDrawable(this, R.drawable.circle).mutate();
+        int newFillColor = ContextCompat.getColor(this, R.color.iconhover);
+        drawable.setColor(newFillColor);
+        imageView.setImageDrawable(drawable);
 
         sliderView = findViewById(R.id.imageSlider);
         SliderAdapter sliderAdapter = new SliderAdapter(images, 200);
