@@ -98,19 +98,18 @@ public class Login extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 User user = new User(username.getText().toString(), password.getText().toString());
 
                 if (user.validate_login()) {
-                    ProgressDialog progressDialog = new ProgressDialog(getApplicationContext());
-                    progressDialog.setTitle("Loading....");
-
                                 try {fAuth.signInWithEmailAndPassword(username.getText().toString(), password.getText().toString())
                                                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<AuthResult> task) {
+                                                        ProgressDialog progressDialog = new ProgressDialog(Login.this);
+                                                        progressDialog.setTitle("Loading....");
+                                                        progressDialog.show();
                                                         if (task.isSuccessful()) {
-
-
                                                             // Update the password in Firestore
                                                             FirebaseFirestore db = FirebaseFirestore.getInstance();
                                                             DocumentReference userRef = db.collection("Users").document(fAuth.getCurrentUser().getUid());
@@ -134,12 +133,6 @@ public class Login extends AppCompatActivity {
                 }
             }
         });
-
-
-
-
-
-
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

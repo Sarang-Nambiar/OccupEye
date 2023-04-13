@@ -65,7 +65,6 @@ public class myRvAdapter extends RecyclerView.Adapter<myRvAdapter.myHolder> {
                 documentReference.update("bookmark", bookmarks).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(context, "Successfully deleted", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
