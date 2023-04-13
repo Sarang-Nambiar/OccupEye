@@ -30,6 +30,7 @@
             android:id="@+id/edit_profile_image"
             android:layout_width="185dp"
             android:layout_height="185dp"
+            android:src="@drawable/pfp_id"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="68dp"
             android:layout_marginBottom="80dp"

@@ -95,17 +95,6 @@ public class RoomPage extends AppCompatActivity {
         images[1] = contentList.get(3);
         images[2] = contentList.get(4);
 
-        Button bookmark = findViewById(R.id.buttonbookmark);
-        bookmark.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(bookmark.getText().toString()=="BOOKMARKED"){
-                    bookmark.setText("ADD TO BOOKMARKS");
-                }else{
-                    bookmark.setText("BOOKMARKED");
-                }
-            }
-        });
 
         ImageButton hostel = findViewById(R.id.imageButton1);
         hostel.setOnClickListener(new View.OnClickListener() {

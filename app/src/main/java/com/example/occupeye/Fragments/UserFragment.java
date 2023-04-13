@@ -117,14 +117,6 @@ public class UserFragment extends Fragment {
          userID = mAuth.getCurrentUser().getUid();
          profileStorage = storageReference.child("Users/"+userID+"/profile.jpg");
 
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAuth.signOut();
-                startActivity(new Intent(getActivity(), Login.class));
-            }
-        });
-
         profileStorage.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -144,6 +136,14 @@ public class UserFragment extends Fragment {
                 }
             }
         });
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth.signOut();
+                startActivity(new Intent(getActivity(), Login.class));
+            }
+        });
+
          editprofilebtn.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {

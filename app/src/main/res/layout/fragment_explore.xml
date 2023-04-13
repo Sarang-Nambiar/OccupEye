@@ -42,15 +42,6 @@
             android:textSize="20sp"
             tools:ignore="RtlCompat" />
 
-        <Button
-            android:id="@+id/buttonbookmark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:backgroundTint="#E3655B"
-            android:layout_marginRight="10dp"
-            android:text="Add to Bookmarks"
-            android:textSize="12dp" />
 
     </LinearLayout>
 

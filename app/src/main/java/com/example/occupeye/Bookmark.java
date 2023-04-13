@@ -5,10 +5,14 @@ import java.util.ArrayList;
 public class Bookmark {
     private static Bookmark bookmark= null;
 
-    public static ArrayList<CategoryCreatorModel> getBookmarkedLocs() {
+    public static ArrayList<String> getBookmarkedLocs() {
         return bookmarkedLocs;
     }
-    static ArrayList<CategoryCreatorModel> bookmarkedLocs;
+    private static ArrayList<String> bookmarkedLocs = new ArrayList<>();
+
+    public static void setBookmarkedLocs(ArrayList<String> bookmarkedLocs) {
+        Bookmark.bookmarkedLocs = bookmarkedLocs;
+    }
 
     private Bookmark(){
         bookmarkedLocs=new ArrayList<>();

@@ -1,5 +1,6 @@
 package com.example.occupeye.Fragments;
 
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -107,7 +108,7 @@ public class SearchFragment extends Fragment {
         //Setting up the recycler view
         recyclerView=rootView.findViewById(R.id.mRecyclerView);
 
-        AA_RecyclerviewAdapter adapter=new AA_RecyclerviewAdapter(rootView.getContext(),categoryModel, Bookmark.getBookmark());
+        AA_RecyclerviewAdapter adapter=new AA_RecyclerviewAdapter(rootView.getContext(),categoryModel, Bookmark.getBookmarkedLocs());
         recyclerView.setAdapter(adapter);
 
 
@@ -120,17 +121,14 @@ public class SearchFragment extends Fragment {
     public void fetchData(String type, Boolean clear){
 
         categoryModel.clear();
-        System.out.println(type);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://occupeye-dedb8-default-rtdb.asia-southeast1.firebasedatabase.app");
         myRef = database.getReference("Locations");
         if ("library".contains(type.toLowerCase(Locale.ROOT))){
-            System.out.println("Library");
             myRef = myRef.child("Library").child("Level 3");
 
 
         } else if ("hostel".contains(type.toLowerCase())) {
-            System.out.println("Hostel");
             myRef = myRef.child("Hostel").child("Block 55");
         } else if ("college".contains(type.toLowerCase(Locale.ROOT))){
             myRef = myRef.child("College").child("Building 2");
@@ -154,7 +152,6 @@ public class SearchFragment extends Fragment {
                         HashMap<String,HashMap<String,String>>data= (HashMap<String, HashMap<String,String>>) task.getResult().getValue();
                         System.out.println(data);
                         for ( String key : data.keySet() ) {
-                            Log.d("LOOK HERE", String.valueOf(key));
                             roomName.add(String.valueOf(key));
                         }
                         for (HashMap value : data.values()) {
@@ -168,7 +165,6 @@ public class SearchFragment extends Fragment {
 
                     }
                 }else{
-                    Log.d("label6","myRef");
                 }
             }
         });

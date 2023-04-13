@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,9 +30,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.protobuf.Value;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
@@ -46,6 +52,7 @@ import java.util.regex.Pattern;
  */
 public class HomeFragment extends Fragment{
     View rootView;
+    Bookmark bookmark;
     FirebaseFirestore fStore;
     FirebaseAuth fAuth;
     String userID;
@@ -53,10 +60,10 @@ public class HomeFragment extends Fragment{
     View hostelselbtn;
     View allselbtn;
     View collegeselbtn;
+    ArrayList<String> bookmarks = new ArrayList<>();
     View libselbtn;
     RecyclerView recyclerView;
     ArrayList<String> roomName;
-    Bookmark bookmark=Bookmark.getBookmark();
 
     RecyclerView bookmarkrv;
     myRvAdapter bookmarkRvAdapter;
@@ -117,6 +124,11 @@ public class HomeFragment extends Fragment{
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         userID = fAuth.getCurrentUser().getUid();
+        bookmark = Bookmark.getBookmark();
+        bookmarks = Bookmark.getBookmarkedLocs();
+        DocumentReference documentReference = fStore.collection("Users").document(userID);
+
+
 
 
         //INITIALISING DOM ELEMENTS
@@ -170,16 +182,25 @@ public class HomeFragment extends Fragment{
             }
 
         });
-        bookmarkRvAdapter = new myRvAdapter(rootView.getContext(), categoryModel, bookmark);
-        bookmarkrv.setLayoutManager(linearLayoutManager);
-        bookmarkrv.setAdapter(bookmarkRvAdapter);
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                bookmarks.addAll((ArrayList<String>) value.get("bookmark"));
+                bookmarkRvAdapter = new myRvAdapter(rootView.getContext(), categoryModel, Bookmark.getBookmarkedLocs());
+                bookmarkrv.setLayoutManager(linearLayoutManager);
+                bookmarkrv.setAdapter(bookmarkRvAdapter);
+            }
+        });
+
 //        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(View view, int position) {
-//                CategoryCreatorModel selectedItem = categoryModel.get(position);
-//                String selectedRoomName = selectedItem.getRoomName();
-//                startActivity(new Intent(getActivity(), RoomPage.class)
-//                        .putExtra("roomName", selectedRoomName));
+//                fStore.collection("Users").document(userID).update("bookmark", Bookmark.getBookmarkedLocs()).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        Toast.makeText(getContext(), "Bookmark uploaded", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
 //            }
 //
 //            @Override
@@ -193,7 +214,7 @@ public class HomeFragment extends Fragment{
     public void setUpRecyclerView(){
         //Setting up the recycler view
         recyclerView=rootView.findViewById(R.id.myRecyclerView);
-        AA_RecyclerviewAdapter adapter=new AA_RecyclerviewAdapter(rootView.getContext(),categoryModel, bookmark);
+        AA_RecyclerviewAdapter adapter=new AA_RecyclerviewAdapter(rootView.getContext(),categoryModel, Bookmark.getBookmarkedLocs());
         recyclerView.setAdapter(adapter);
 
 
@@ -248,7 +269,6 @@ public class HomeFragment extends Fragment{
                     if(task.getResult().exists()){
                         DataSnapshot dataSnapshot = task.getResult();
                         HashMap<String,HashMap<String,String>>data= (HashMap<String, HashMap<String,String>>) task.getResult().getValue();
-                        System.out.println(data);
                         for ( String key : data.keySet() ) {
                             Log.d("LOOK HERE", String.valueOf(key));
                             roomName.add(String.valueOf(key));

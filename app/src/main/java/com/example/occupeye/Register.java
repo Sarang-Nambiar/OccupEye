@@ -63,7 +63,7 @@ public class Register extends AppCompatActivity {
     }
 
     private String getActiveBlock(){
-        if (block55_sel){return "55";} else if (block59_sel) {return "59";}else if(block57_sel){return "57";}else {return null;}
+        if (block55_sel){return "55";} else if (block59_sel) {return "59";}else if(block57_sel){return "57";}else {return "-";}
 
     }
 

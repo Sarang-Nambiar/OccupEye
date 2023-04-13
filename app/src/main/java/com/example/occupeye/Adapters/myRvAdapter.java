@@ -1,32 +1,47 @@
 package com.example.occupeye.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.occupeye.Bookmark;
 import com.example.occupeye.CategoryCreatorModel;
 import com.example.occupeye.Fragments.UserFragment;
 import com.example.occupeye.R;
+import com.example.occupeye.RoomPage;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
 public class myRvAdapter extends RecyclerView.Adapter<myRvAdapter.myHolder> {
     Context context;
+    FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
+    String userID;
+    ArrayList<String> bookmarks;
     ArrayList<CategoryCreatorModel> creatorModel;
-    Bookmark bookmark;
 
-    public myRvAdapter(Context context, ArrayList<CategoryCreatorModel> categoryCreatorModels, Bookmark bookmark){
-        this.creatorModel = categoryCreatorModels;
+    public myRvAdapter(Context context, ArrayList<CategoryCreatorModel> creatorModel, ArrayList<String> bookmarks){
+        this.bookmarks = bookmarks;
         this.context = context;
-        this.bookmark = bookmark;
+        this.creatorModel = creatorModel;
+        this.fAuth = FirebaseAuth.getInstance();
+        this.fStore = FirebaseFirestore.getInstance();
+        this.userID = fAuth.getCurrentUser().getUid();
     }
     @NonNull
     @Override
@@ -37,37 +52,53 @@ public class myRvAdapter extends RecyclerView.Adapter<myRvAdapter.myHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull myHolder holder, int position) {
-        holder.tvTitle.setText(creatorModel.get(position).getRoomName());
-        holder.background.setImageResource(creatorModel.get(position).getImage());
-        CategoryCreatorModel bookmarkPot=new CategoryCreatorModel(creatorModel.get(position).getRoomName(),creatorModel.get(position).getImage(),creatorModel.get(position).getColour());
+        holder.tvTitle.setText(bookmarks.get(position));
+        holder.background.setImageResource(R.drawable.studyroom);
+        DocumentReference documentReference = fStore.collection("Users").document(userID);
         holder.bookmarkbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println(Bookmark.getBookmarkedLocs());
-                Bookmark.getBookmarkedLocs().remove(bookmarkPot);
+                if(view.getScrollBarSize() == 0){
+                    Toast.makeText(context, "No more bookmarks left!", Toast.LENGTH_SHORT).show();
+                }
+                bookmarks.remove(holder.getAdapterPosition());
+                documentReference.update("bookmark", bookmarks).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(context, "Successfully deleted", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, RoomPage.class);
+                intent.putExtra("roomName",bookmarks.get(holder.getAdapterPosition()));
+                context.startActivity(intent);
             }
         });
     }
 
+
     @Override
     public int getItemCount() {
-        return creatorModel.size();
+        return bookmarks.size();
     }
 
     public class myHolder extends RecyclerView.ViewHolder{
         TextView tvTitle;
         ImageView background;
         Button bookmarkbtn;
+        CardView cardView;
 
         public myHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.roomnameRv);
             bookmarkbtn = itemView.findViewById(R.id.bookmarkbtnRv);
+            background = itemView.findViewById(R.id.roompicRv);
+            cardView = itemView.findViewById(R.id.parentCard);
         }
-    }
-
-    public Bookmark getBookmark(){
-        return bookmark;
     }
 
 }

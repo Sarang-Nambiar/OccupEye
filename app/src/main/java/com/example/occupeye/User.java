@@ -1,10 +1,11 @@
 package com.example.occupeye;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 class User_Collections_Test{
-    static HashMap<String,String> user_table=new HashMap<>();
+    static HashMap<String,Object> user_table=new HashMap<>();
 
 }
 public class User {
@@ -15,6 +16,7 @@ public class User {
     private String block = "-";
     private String pillar = "-";
     private String term = "-";
+
 
     HashMap<String,String> obj=new HashMap<>();
 
@@ -64,11 +66,12 @@ public class User {
         obj.put("password",password);
         obj.put("email",email);
         if(this.block == "-"){
+            obj.put("block", block);
             obj.put("Hostel Residency", "No");
         }else{
+            obj.put("block", block);
             obj.put("Hostel Residency", "Yes");
         }
-        obj.put("block", block);
         obj.put("Pillar", pillar);
         obj.put("Term", term);
         return obj;
