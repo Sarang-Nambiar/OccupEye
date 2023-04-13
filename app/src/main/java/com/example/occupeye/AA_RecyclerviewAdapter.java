@@ -66,12 +66,15 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
             @Override
             public void onClick(View view) {
 
-                if (holder.bookmarkButton.getText().toString() == "BOOKMARKED" && bookmarks.contains(holder.roomName.getText().toString())) {
+                if (holder.bookmarkButton.getText().toString() == "BOOKMARKED") {
                     holder.bookmarkButton.setText("ADD TO BOOKMARKS");
                     bookmarks.remove(holder.roomName.getText().toString());
-                } else if(!bookmarks.contains(holder.roomName.getText().toString()) && holder.bookmarkButton.getText().toString() == "ADD TO BOOKMARKS"){
-                    holder.bookmarkButton.setText("BOOKMARKED");
-                    bookmarks.add(holder.roomName.getText().toString());
+                } else{
+                    if(!bookmarks.contains(holder.roomName.getText().toString())){
+                        holder.bookmarkButton.setText("BOOKMARKED");
+                        bookmarks.add(holder.roomName.getText().toString());
+                    }
+
 
                 }
                 documentReference.update("bookmark", bookmarks).addOnCompleteListener(new OnCompleteListener<Void>() {
