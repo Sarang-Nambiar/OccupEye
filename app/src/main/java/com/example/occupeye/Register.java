@@ -95,7 +95,7 @@ public class Register extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                User user=new User(username.getText().toString(),password.getText().toString(),email.getText().toString());
+                User user=new User(username.getText().toString().trim(),password.getText().toString(),email.getText().toString());
                 //username checker
                 //password checker
                 //email checker
@@ -167,7 +167,7 @@ public class Register extends AppCompatActivity {
                 }else {
                     if(!user.username_checker()){
 
-                        Toast.makeText(Register.this,"Username Cannot Have Space",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Register.this,"Username has to be atleast 7 characters long",Toast.LENGTH_SHORT).show();
                     }if (!user.password_checker()) {
                         Toast.makeText(Register.this,"Password Cannot Have Space",Toast.LENGTH_SHORT).show();
                     }
