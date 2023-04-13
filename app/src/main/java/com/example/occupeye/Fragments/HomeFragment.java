@@ -281,7 +281,7 @@ public class HomeFragment extends Fragment{
                             colours.add((String) value.get("Colour Grading"));
                         }
                         for(int i=0;i<roomName.size();i++){
-                            categoryModel.add(new CategoryCreatorModel(roomName.get(i),imageno[0],colours.get(i)));
+                            categoryModel.add(new CategoryCreatorModel(roomName.get(i),imageno[0],colours.get(i), type));
                         }
                         setUpRecyclerView();
 

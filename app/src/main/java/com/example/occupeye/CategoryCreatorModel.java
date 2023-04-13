@@ -5,10 +5,13 @@ public class CategoryCreatorModel {
     int image;
     String colour;
 
-    public CategoryCreatorModel(String roomName, int image, String colour) {
+    String roomType;
+
+    public CategoryCreatorModel(String roomName, int image, String colour, String roomType) {
         this.roomName = roomName;
         this.image = image;
         this.colour = colour;
+        this.roomType = roomType;
     }
 
     public String getRoomName() {
@@ -21,5 +24,9 @@ public class CategoryCreatorModel {
 
     public int getImage() {
         return image;
+    }
+
+    public String getRoomType(){
+        return roomType;
     }
 }

@@ -89,6 +89,7 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
             public void onClick(View view) {
                 Intent intent = new Intent(context, RoomPage.class);
                 intent.putExtra("roomName", creatorModel.get(holder.getAdapterPosition()).roomName);
+                intent.putExtra("roomType", creatorModel.get(holder.getAdapterPosition()).getRoomType());
                 context.startActivity(intent);
             }
         });
