@@ -185,10 +185,14 @@ public class HomeFragment extends Fragment{
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                bookmarks.addAll((ArrayList<String>) value.get("bookmark"));
-                bookmarkRvAdapter = new myRvAdapter(rootView.getContext(), categoryModel, Bookmark.getBookmarkedLocs());
-                bookmarkrv.setLayoutManager(linearLayoutManager);
-                bookmarkrv.setAdapter(bookmarkRvAdapter);
+                if(value != null){
+                    if(value.exists()){
+                        bookmarks.addAll((ArrayList<String>) value.get("bookmark"));
+                        bookmarkRvAdapter = new myRvAdapter(rootView.getContext(), categoryModel, Bookmark.getBookmarkedLocs());
+                        bookmarkrv.setLayoutManager(linearLayoutManager);
+                        bookmarkrv.setAdapter(bookmarkRvAdapter);
+                    }
+                }
             }
         });
 

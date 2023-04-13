@@ -127,12 +127,15 @@ public class UserFragment extends Fragment {
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
-                if(documentSnapshot.exists()){
-                    username.setText(documentSnapshot.getString("username"));
-                    pillar.setText(documentSnapshot.getString("Pillar"));
-                    term.setText(documentSnapshot.getString("Term"));
-                    hostelBlock.setText(documentSnapshot.getString("block"));
-                    hostelResident.setText(documentSnapshot.getString("Hostel Residency"));
+                if(documentSnapshot != null){
+                    if(documentSnapshot.exists()){
+                        username.setText(documentSnapshot.getString("username"));
+                        pillar.setText(documentSnapshot.getString("Pillar"));
+                        term.setText(documentSnapshot.getString("Term"));
+                        hostelBlock.setText(documentSnapshot.getString("block"));
+                        hostelResident.setText(documentSnapshot.getString("Hostel Residency"));
+                    }
+
                 }
             }
         });
@@ -152,6 +155,7 @@ public class UserFragment extends Fragment {
                  startActivity(i);
              }
          });
+
          return rootView;
     }
 }
