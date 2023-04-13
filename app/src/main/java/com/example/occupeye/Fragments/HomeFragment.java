@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -187,7 +188,7 @@ public class HomeFragment extends Fragment{
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 if(value != null){
                     if(value.exists()){
-                        bookmarks.addAll((ArrayList<String>) value.get("bookmark"));
+                        Bookmark.setBookmarkedLocs((ArrayList<String>) value.get("bookmark"));
                         bookmarkRvAdapter = new myRvAdapter(rootView.getContext(), categoryModel, Bookmark.getBookmarkedLocs());
                         bookmarkrv.setLayoutManager(linearLayoutManager);
                         bookmarkrv.setAdapter(bookmarkRvAdapter);
@@ -199,12 +200,11 @@ public class HomeFragment extends Fragment{
 //        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(View view, int position) {
-//                fStore.collection("Users").document(userID).update("bookmark", Bookmark.getBookmarkedLocs()).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        Toast.makeText(getContext(), "Bookmark uploaded", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
+//                Fragment currentFragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.framelayouthome);
+//                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+//                fragmentTransaction.detach(currentFragment);
+//                fragmentTransaction.attach(currentFragment);
+//                fragmentTransaction.commit();
 //            }
 //
 //            @Override

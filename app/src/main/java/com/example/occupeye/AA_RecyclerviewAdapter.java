@@ -18,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.occupeye.Fragments.HomeFragment;
@@ -74,8 +76,6 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
                         holder.bookmarkButton.setText("BOOKMARKED");
                         bookmarks.add(holder.roomName.getText().toString());
                     }
-
-
                 }
                 documentReference.update("bookmark", bookmarks).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
