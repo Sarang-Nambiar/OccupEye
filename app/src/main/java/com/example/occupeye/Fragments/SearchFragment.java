@@ -124,54 +124,61 @@ public class SearchFragment extends Fragment {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://occupeye-dedb8-default-rtdb.asia-southeast1.firebasedatabase.app");
         myRef = database.getReference("Locations");
-        if ("library".contains(type.toLowerCase(Locale.ROOT))){
-            System.out.println("Library");
-            myRef = myRef.child("Library").child("Level 3");
+        try {
+            if ("library".contains(type.toLowerCase(Locale.ROOT))){
+                System.out.println("Library");
+                myRef = myRef.child("Library").child("Level 3");
 
 
-        } else if ("hostel".contains(type.toLowerCase())) {
-            System.out.println("Hostel");
-            myRef = myRef.child("Hostel").child("Block 55");
-        } else if ("college".contains(type.toLowerCase(Locale.ROOT))){
-            myRef = myRef.child("College").child("Building 2");
+            } else if ("hostel".contains(type.toLowerCase())) {
+                System.out.println("Hostel");
+                myRef = myRef.child("Hostel").child("Block 55");
+            }
+            else if ("college".contains(type.toLowerCase(Locale.ROOT))){
+                myRef = myRef.child("College").child("Building 2");
+            }else {throw  new Exception();}
+
+            ArrayList<String> roomName = new ArrayList<>();
+            ArrayList<String> colours = new ArrayList<>();
+            int[] imageno={R.drawable.hostel_img};
+            System.out.println(myRef);
+
+            myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (!task.isSuccessful()) {Toast.makeText(getContext(),"Unable to get data",Toast.LENGTH_SHORT).show();}
+                    if (task.isSuccessful()){
+                        System.out.println("works??>");
+                        if(task.getResult().exists()){
+                            DataSnapshot dataSnapshot = task.getResult();
+                            HashMap<String,HashMap<String,String>>data= (HashMap<String, HashMap<String,String>>) task.getResult().getValue();
+                            System.out.println(data);
+                            for ( String key : data.keySet() ) {
+                                Log.d("LOOK HERE", String.valueOf(key));
+                                roomName.add(String.valueOf(key));
+                            }
+                            for (HashMap value : data.values()) {
+                                colours.add((String) value.get("Colour Grading"));
+                            }
+                            for(int i=0;i<roomName.size();i++){
+                                categoryModel.add(new CategoryCreatorModel(roomName.get(i),imageno[0],colours.get(i)));
+                            }
+                            System.out.println(colours);
+                            setUpRecyclerView();
+
+                        }
+                    }else{
+                        Log.d("label6","myRef");
+                    }
+                }
+            });
+        }
+       catch (Exception e){
+            Toast.makeText(getContext(),"Invalid Search Entry",Toast.LENGTH_SHORT).show();
         }
 
 
 
-        ArrayList<String> roomName = new ArrayList<>();
-        ArrayList<String> colours = new ArrayList<>();
-        int[] imageno={R.drawable.hostel_img};
-        System.out.println(myRef);
-
-        myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {Toast.makeText(getContext(),"Unable to get data",Toast.LENGTH_SHORT).show();}
-                if (task.isSuccessful()){
-                    System.out.println("works??>");
-                    if(task.getResult().exists()){
-                        DataSnapshot dataSnapshot = task.getResult();
-                        HashMap<String,HashMap<String,String>>data= (HashMap<String, HashMap<String,String>>) task.getResult().getValue();
-                        System.out.println(data);
-                        for ( String key : data.keySet() ) {
-                            Log.d("LOOK HERE", String.valueOf(key));
-                            roomName.add(String.valueOf(key));
-                        }
-                        for (HashMap value : data.values()) {
-                            colours.add((String) value.get("Colour Grading"));
-                        }
-                        for(int i=0;i<roomName.size();i++){
-                            categoryModel.add(new CategoryCreatorModel(roomName.get(i),imageno[0],colours.get(i)));
-                        }
-                        System.out.println(colours);
-                        setUpRecyclerView();
-
-                    }
-                }else{
-                    Log.d("label6","myRef");
-                }
-            }
-        });
     }
 
     @Override
