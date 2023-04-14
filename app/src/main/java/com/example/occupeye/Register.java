@@ -33,6 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Register extends AppCompatActivity {
@@ -118,7 +119,7 @@ public class Register extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(Void unused) {
                                                 Toast.makeText(Register.this, "Successfully Registered", Toast.LENGTH_SHORT).show();
-                                                progressDialog.dismiss();
+                                                documentReference.update("bookmark", new ArrayList<String>());
                                             }
                                         });
                                         Intent intent = new Intent(Register.this, Login.class);

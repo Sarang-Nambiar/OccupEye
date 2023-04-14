@@ -34,7 +34,7 @@ import java.util.ArrayList;
 public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_RecyclerviewAdapter.MyViewHolder> {
     Context context;
     ArrayList<CategoryCreatorModel> creatorModel;
-    ArrayList<String> bookmarks;
+    ArrayList<String> bookmarks = new ArrayList<>();
     FirebaseFirestore fStore;
     FirebaseAuth fAuth;
     String userID;
@@ -43,10 +43,20 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
     public AA_RecyclerviewAdapter(Context context, ArrayList<CategoryCreatorModel> creatorModel, ArrayList<String> bookmarks) {
         this.context = context;
         this.creatorModel = creatorModel;
-        this.bookmarks = bookmarks;
         this.fStore = FirebaseFirestore.getInstance();
         this.fAuth = FirebaseAuth.getInstance();
         this.userID = fAuth.getCurrentUser().getUid();
+        if(bookmarks == null){
+            this.bookmarks = new ArrayList<String>();
+            fStore.collection("Users").document(userID).update("bookmark", this.bookmarks).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    Toast.makeText(context, "Done", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else{
+            this.bookmarks = bookmarks;
+        }
     }
 
     @NonNull

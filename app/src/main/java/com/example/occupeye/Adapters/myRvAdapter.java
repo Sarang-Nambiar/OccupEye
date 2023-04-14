@@ -32,7 +32,7 @@ public class myRvAdapter extends RecyclerView.Adapter<myRvAdapter.myHolder> {
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userID;
-    ArrayList<String> bookmarks;
+    ArrayList<String> bookmarks = new ArrayList<>();
     ArrayList<CategoryCreatorModel> creatorModel;
 
     public myRvAdapter(Context context, ArrayList<CategoryCreatorModel> creatorModel, ArrayList<String> bookmarks){
@@ -82,6 +82,11 @@ public class myRvAdapter extends RecyclerView.Adapter<myRvAdapter.myHolder> {
 
     @Override
     public int getItemCount() {
+        if(bookmarks == null){
+            DocumentReference documentReference = fStore.collection("Users").document(userID);
+            documentReference.update("bookmark", new ArrayList<String>());
+            return 0;
+        }
         return bookmarks.size();
     }
 
