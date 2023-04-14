@@ -136,6 +136,7 @@ public class SearchFragment extends Fragment {
                 myRef = myRef.child("Hostel").child("Block 55");
             }
             else if ("college".contains(type.toLowerCase(Locale.ROOT))){
+                System.out.println("college");
                 myRef = myRef.child("College").child("Building 2");
             }else {throw  new Exception();}
 
@@ -182,33 +183,7 @@ public class SearchFragment extends Fragment {
         int[] imageno={R.drawable.hostel_img};
         System.out.println(myRef);
 
-        myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {Toast.makeText(getContext(),"Unable to get data",Toast.LENGTH_SHORT).show();}
-                if (task.isSuccessful()){
-                    System.out.println("works??>");
-                    if(task.getResult().exists()){
-                        DataSnapshot dataSnapshot = task.getResult();
-                        HashMap<String,HashMap<String,String>>data= (HashMap<String, HashMap<String,String>>) task.getResult().getValue();
-                        System.out.println(data);
-                        for ( String key : data.keySet() ) {
-                            roomName.add(String.valueOf(key));
-                        }
-                        for (HashMap value : data.values()) {
-                            colours.add((String) value.get("Colour Grading"));
-                        }
-                        for(int i=0;i<roomName.size();i++){
-                            categoryModel.add(new CategoryCreatorModel(roomName.get(i),imageno[0],colours.get(i), type));
-                        }
-                        System.out.println(colours);
-                        setUpRecyclerView();
 
-                    }
-                }else{
-                }
-            }
-        });
     }
 
     @Override
