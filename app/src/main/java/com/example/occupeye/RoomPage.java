@@ -1,5 +1,6 @@
 package com.example.occupeye;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -18,8 +19,11 @@ import com.example.occupeye.Adapters.SliderAdapter;
 import com.example.occupeye.Fragments.HomeFragment;
 import com.example.occupeye.HomeScreen;
 import com.example.occupeye.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
@@ -41,8 +45,37 @@ public class RoomPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_explore);
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance("https://occupeye-dedb8-default-rtdb.asia-southeast1.firebasedatabase.app");
-        DatabaseReference myRef = database.getReference("Locations");
+        Intent intent = getIntent();
+        String title = intent.getStringExtra("roomName");
+        String roomType = intent.getStringExtra("roomType");
+
+        DatabaseReference roomTypeRef = FirebaseDatabase.getInstance("https://occupeye-dedb8-default-rtdb.asia-southeast1.firebasedatabase.app")
+                .getReference("Locations");
+
+        if (roomType.equals("lib")) {
+            roomTypeRef = roomTypeRef.child("Library").child("Level 3").child(title);
+        } else if (roomType.equals("hostel")) {
+            roomTypeRef = roomTypeRef.child("Hostel").child("Block 55").child(title);
+        } else if (roomType.equals("college")) {
+            roomTypeRef = roomTypeRef.child("College").child("Building 2").child(title);
+        }
+
+        roomTypeRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String roomColor = dataSnapshot.child("Colour Grading").getValue(String.class);
+                ImageView imageView = findViewById(R.id.crowdindicator);
+                GradientDrawable drawable = (GradientDrawable) ContextCompat.getDrawable(RoomPage.this, R.drawable.circle).mutate();
+                int newFillColor = Color.parseColor(roomColor);
+                drawable.setColor(newFillColor);
+                imageView.setImageDrawable(drawable);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle the error
+            }
+        });
 
         List<Integer> contentStudyRoom = new ArrayList<>();
         contentStudyRoom.add(R.drawable.studyroom);
@@ -77,9 +110,6 @@ public class RoomPage extends AppCompatActivity {
         mContent.put("Think Tank 11", contentCollege);
         mContent.put("Think Tank 15", contentCollege);
 
-
-        Intent intent = getIntent();
-        String title = intent.getStringExtra("roomName");
 
         List<Integer> contentList = mContent.get(title);
 
