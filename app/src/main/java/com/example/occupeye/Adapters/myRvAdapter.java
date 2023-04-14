@@ -72,9 +72,11 @@ public class myRvAdapter extends RecyclerView.Adapter<myRvAdapter.myHolder> {
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, RoomPage.class);
-                intent.putExtra("roomName",bookmarks.get(holder.getAdapterPosition()));
-                context.startActivity(intent);
+//                Intent intent = new Intent(context, RoomPage.class);
+//                intent.putExtra("roomName",bookmarks.get(holder.getAdapterPosition()));
+//                intent.putExtra("roomType", "lib");
+//                context.startActivity(intent);
+                Toast.makeText(context, "Feature under developement", Toast.LENGTH_SHORT).show();
             }
         });
     }

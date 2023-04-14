@@ -51,7 +51,6 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
             fStore.collection("Users").document(userID).update("bookmark", this.bookmarks).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    Toast.makeText(context, "Done", Toast.LENGTH_SHORT).show();
                 }
             });
         }else{
