@@ -71,6 +71,9 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
     public void onBindViewHolder(@NonNull AA_RecyclerviewAdapter.MyViewHolder holder, int position) {
         holder.background.setImageResource(creatorModel.get(position).image);
         holder.roomName.setText(creatorModel.get(position).roomName);
+        if(this.bookmarks.contains(holder.roomName.getText().toString())){
+            holder.bookmarkButton.setText("BOOKMARKED");
+        }
         holder.cardView.setCardBackgroundColor(Color.parseColor(creatorModel.get(position).colour));
         DocumentReference documentReference = fStore.collection("Users").document(userID);
         holder.bookmarkButton.setOnClickListener(new View.OnClickListener() {

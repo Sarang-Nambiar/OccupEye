@@ -104,6 +104,7 @@ public class myRvAdapter extends RecyclerView.Adapter<myRvAdapter.myHolder> {
             bookmarkbtn = itemView.findViewById(R.id.bookmarkbtnRv);
             background = itemView.findViewById(R.id.roompicRv);
             cardView = itemView.findViewById(R.id.parentCard);
+
         }
     }
 
