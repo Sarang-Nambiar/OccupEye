@@ -74,14 +74,15 @@ public class myRvAdapter extends RecyclerView.Adapter<myRvAdapter.myHolder> {
             public void onClick(View view) {
                 Intent intent = new Intent(context, RoomPage.class);
                 String roomname = bookmarks.get(holder.getAdapterPosition());
+                String roomType = "hostel";
                 intent.putExtra("roomName",roomname);
                 for(int i = 0; i < creatorModel.size(); i++){
                     if(creatorModel.get(i).getRoomName().equals(roomname)){
-                        intent.putExtra("roomType", creatorModel.get(i).getRoomType());
+                        roomType = creatorModel.get(i).getRoomType();
                         break;
                     }
                 }
-                System.out.println(creatorModel);
+                intent.putExtra("roomType", roomType);
                 context.startActivity(intent);
             }
         });

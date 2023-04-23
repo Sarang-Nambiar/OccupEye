@@ -51,9 +51,6 @@ public class RoomPage extends AppCompatActivity {
 
         DatabaseReference roomTypeRef = FirebaseDatabase.getInstance("https://occupeye-dedb8-default-rtdb.asia-southeast1.firebasedatabase.app")
                 .getReference("Locations");
-        if(roomType == null){
-            roomType = "hostel";
-        }
         if (roomType.equals("lib")) {
             roomTypeRef = roomTypeRef.child("Library").child("Level 3").child(title);
         } else if (roomType.equals("hostel")) {
