@@ -55,13 +55,13 @@ def sendData(users):
 lastCalled = 0
 
 ## Object detection stuff
-cap = cv2.VideoCapture('https://10.16.149.238:8080/video')
-net = cv2.dnn.readNetFromONNX("yolov5n.onnx")
+cap = cv2.VideoCapture('https://10.16.149.238:8080/video') # setting IP address of video source
+net = cv2.dnn.readNetFromONNX("yolov5n.onnx") # deciding the model to use
 file = open("coco.txt","r")
 classes = file.read().split('\n')
 print(classes)
 
-
+# plotting the rectangle using the coordinates obtained from object detection
 while True:
     img = cap.read()[1]
     if img is None:
@@ -106,7 +106,7 @@ while True:
 
     indices = cv2.dnn.NMSBoxes(boxes,confidences,0.5,0.5)
 
-    
+    # drawing the rectangles around the detected object
     people = 0
     for i in indices:
         x1,y1,w,h = boxes[i]
