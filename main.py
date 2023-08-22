@@ -55,7 +55,7 @@ def sendData(users):
 lastCalled = 0
 
 ## Object detection stuff
-cap = cv2.VideoCapture('https://10.16.149.238:8080/video') # setting IP address of video source
+cap = cv2.VideoCapture(0) # setting IP address of video source
 net = cv2.dnn.readNetFromONNX("yolov5n.onnx") # deciding the model to use
 file = open("coco.txt","r")
 classes = file.read().split('\n')

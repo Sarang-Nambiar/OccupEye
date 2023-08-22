@@ -165,6 +165,7 @@ public class SearchFragment extends Fragment {
                                 colours.add((String) value.get("Colour Grading"));
                                 users.add(String.valueOf((Long) value.get("Users")));
                                 room_capacity.add((String) value.get("Room Capacity"));
+
                             }
                             for(int i=0;i<roomName.size();i++){
                                 categoryModel.add(new CategoryCreatorModel(roomName.get(i),imageno[0],colours.get(i), type,users.get(i),room_capacity.get(i)));

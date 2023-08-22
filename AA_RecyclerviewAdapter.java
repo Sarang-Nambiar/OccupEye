@@ -51,6 +51,7 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
             fStore.collection("Users").document(userID).update("bookmark", this.bookmarks).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
+                    Toast.makeText(context, "Done", Toast.LENGTH_SHORT).show();
                 }
             });
         }else{
@@ -73,9 +74,6 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
         holder.roomName.setText(creatorModel.get(position).roomName);
         String s=creatorModel.get(position).users+"/"+creatorModel.get(position).room_cap;
         holder.crowd.setText(s);
-        if(this.bookmarks.contains(holder.roomName.getText().toString())){
-            holder.bookmarkButton.setText("BOOKMARKED");
-        }
         holder.cardView.setCardBackgroundColor(Color.parseColor(creatorModel.get(position).colour));
         DocumentReference documentReference = fStore.collection("Users").document(userID);
         holder.bookmarkButton.setOnClickListener(new View.OnClickListener() {
@@ -117,10 +115,10 @@ public class AA_RecyclerviewAdapter extends RecyclerView.Adapter<AA_Recyclerview
     class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView background;
         TextView roomName;
+        TextView crowd;
         Button bookmarkButton;
         CardView cardView;
         CardView parentCard;
-        TextView crowd;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
