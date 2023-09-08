@@ -26,10 +26,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -152,13 +154,11 @@ public class SearchFragment extends Fragment {
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
                     if (!task.isSuccessful()) {Toast.makeText(getContext(),"Unable to get data",Toast.LENGTH_SHORT).show();}
                     if (task.isSuccessful()){
-                        System.out.println("works??>");
                         if(task.getResult().exists()){
                             DataSnapshot dataSnapshot = task.getResult();
                             HashMap<String,HashMap<String,String>>data= (HashMap<String, HashMap<String,String>>) task.getResult().getValue();
                             System.out.println(data);
                             for ( String key : data.keySet() ) {
-                                Log.d("LOOK HERE", String.valueOf(key));
                                 roomName.add(String.valueOf(key));
                             }
                             for (HashMap value : data.values()) {
@@ -179,6 +179,7 @@ public class SearchFragment extends Fragment {
                 }
             });
         }
+
        catch (Exception e){
             Toast.makeText(getContext(),"Invalid Search Entry",Toast.LENGTH_SHORT).show();
         }
@@ -186,8 +187,6 @@ public class SearchFragment extends Fragment {
         ArrayList<String> colours = new ArrayList<>();
         int[] imageno={R.drawable.hostel_img};
         System.out.println(myRef);
-
-
     }
 
     @Override

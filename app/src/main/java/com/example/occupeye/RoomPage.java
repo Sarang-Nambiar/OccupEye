@@ -36,7 +36,6 @@ import java.util.Map;
 
 public class RoomPage extends AppCompatActivity {
     SliderView sliderView;
-    FirebaseFirestore fstore;
     int[] images = new int[3];
     private Map<String, List<Integer>> mContent = new HashMap<>();
 
@@ -86,7 +85,7 @@ public class RoomPage extends AppCompatActivity {
         mContent.put("Study Room 4", contentStudyRoom);
         mContent.put("Study Room 6", contentStudyRoom);
         mContent.put("Study Room 9", contentStudyRoom);
-        mContent.put("Test Room", contentStudyRoom);
+        mContent.put("i3 Lab @ Building 1 Level 6", contentStudyRoom);
 
         List<Integer> contentLibrary = new ArrayList<>();
         contentLibrary.add(R.drawable.library);
